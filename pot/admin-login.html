@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>AirPulse // Operator Login</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#000000">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="single-page-body admin-login-body">
+  <header class="app-header">
+    <div class="nav-container">
+      <span class="nav-brand">
+        <span class="brand-bracket-mark">[ &bull; ]</span>
+        <span class="brand-title">AirPulse</span>
+        <span class="brand-slash">/</span>
+        <span class="brand-subtag">Operator</span>
+      </span>
+      <div class="hardware-telemetry-chip">
+        <span class="node-dot"></span>
+        <span>ADMIN GATE // LOCKED</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="single-page-main">
+    <div class="portal-blueprint-container">
+      <div class="dashed-section-primitive admin-login-card">
+        <div class="blueprint-header-stack" style="text-align:center;">
+          <div class="eyebrow-chip" style="margin-left:auto;margin-right:auto;">
+            <span class="eyebrow-pen">&bull;</span>
+            <span>RESTRICTED // ADMINISTRATOR ONLY</span>
+          </div>
+          <h1 class="blueprint-display-headline" style="font-size:clamp(28px,4vw,42px);">OPERATOR SIGN-IN.</h1>
+          <p class="blueprint-subtext">Hotspot clients cannot use this page. Enter administrator credentials to open the command dashboard, routers, and payment database.</p>
+        </div>
+
+        <form id="admin-login-form" class="admin-login-form" autocomplete="username">
+          <div class="input-group">
+            <label for="admin-username" class="input-label">Administrator Username</label>
+            <input type="text" id="admin-username" class="blueprint-input" required autocomplete="username" placeholder="admin">
+          </div>
+          <div class="input-group">
+            <label for="admin-password" class="input-label">Password</label>
+            <input type="password" id="admin-password" class="blueprint-input" required autocomplete="current-password" placeholder="••••••••">
+          </div>
+          <p class="admin-login-error" id="admin-login-error" hidden></p>
+          <button type="submit" class="btn-submit-blueprint" id="btn-admin-login">
+            <span>Unlock Backend &rarr;</span>
+          </button>
+          <p class="input-helper" id="default-cred-hint">Default first login: <strong>admin</strong> / <strong>AirPulse#Admin</strong> — change this immediately after you sign in.</p>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <div class="footer-container">
+      <div class="footer-schematic-label">
+        <span class="node-dot"></span>
+        <span>INDEX // OPERATOR AUTH GATE &bull; CLIENT PORTAL IS MIKROTIK LOGIN.HTML</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="auth.js"></script>
+  <script>
+    (function () {
+      var params = new URLSearchParams(location.search);
+      var next = params.get('next') || 'dashboard.html';
+      var allowed = { 'dashboard.html': 1, 'devices.html': 1, 'database.html': 1 };
+      if (!allowed[next]) next = 'dashboard.html';
+
+      if (window.AirPulseAuth && AirPulseAuth.isLoggedIn()) {
+        location.replace(next);
+        return;
+      }
+
+      if (window.AirPulseAuth && AirPulseAuth.hasCustomCredentials()) {
+        var hint = document.getElementById('default-cred-hint');
+        if (hint) hint.hidden = true;
+      }
+
+      var form = document.getElementById('admin-login-form');
+      var errorEl = document.getElementById('admin-login-error');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        errorEl.hidden = true;
+        var user = document.getElementById('admin-username').value;
+        var pass = document.getElementById('admin-password').value;
+        AirPulseAuth.login(user, pass).then(function (result) {
+          if (!result.ok) {
+            errorEl.textContent = result.error;
+            errorEl.hidden = false;
+            return;
+          }
+          location.replace(next);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>AirPulse // Payment Records Database</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Technical wireframe payment records database for AirPulse MikroTik Hotspot. View all client transactions, MAC bindings, and IP allocations.">
+  <style>html.auth-pending body{visibility:hidden}</style>
+  <script>document.documentElement.classList.add('auth-pending');</script>
+
+  <!-- Index Meta & Display Settings -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="theme-color" content="#000000">
+
+  <!-- Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="database.css">
+</head>
+<body>
+
+  <!-- Top Navigation (Blueprint Drafting Chrome) -->
+  <header class="app-header">
+    <div class="nav-container">
+      
+      <!-- Brand Identity -->
+      <a href="dashboard.html" class="nav-brand" aria-label="AirPulse Home">
+        <span class="brand-bracket-mark">[ &bull; ]</span>
+        <span class="brand-title">AirPulse</span>
+        <span class="brand-slash">/</span>
+        <span class="brand-subtag">Payment DB</span>
+      </a>
+
+      <!-- Database Status Pill -->
+      <div class="hardware-telemetry-chip">
+        <span class="node-dot"></span>
+        <span>DB // RECORDS</span>
+        <span class="chip-sep">:</span>
+        <span class="chip-val" id="db-record-count">0 Entries</span>
+        <span class="chip-sep">&bull;</span>
+        <span class="chip-accent" id="db-status-indicator">LIVE</span>
+      </div>
+
+      <!-- Outlined Pill Action Buttons -->
+      <div class="nav-actions">
+        <a href="dashboard.html" class="btn-pill-outlined btn-pill-ghost" id="btn-back-portal">
+          <span>&larr; Dashboard</span>
+        </a>
+
+        <a href="dashboard.html" class="btn-pill-outlined" id="btn-nav-dashboard" style="border-color: var(--color-periwinkle-annotation); color: var(--color-paper);">
+          <span>Dashboard &rarr;</span>
+        </a>
+
+        <a href="devices.html" class="btn-pill-outlined btn-pill-ghost" id="btn-nav-routers">
+          <span>Routers &rarr;</span>
+        </a>
+
+        <button class="btn-pill-outlined" id="btn-add-record">
+          <span>+ Add Record</span>
+        </button>
+
+        <button class="btn-pill-outlined btn-pill-ghost" data-admin-logout>
+          <span>Sign Out</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Main Blueprint Canvas -->
+  <main class="page-main">
+    
+    <!-- Hero / Database Overview Section -->
+    <section class="db-hero-section">
+      <div class="container">
+        
+        <div class="eyebrow-chip">
+          <span class="eyebrow-pen">&bull;</span>
+          <span>PAYMENT ENGINE // TUMA API BANK SETTLEMENT LEDGER</span>
+        </div>
+
+        <div class="db-hero-header">
+          <div>
+            <h1 class="db-hero-title">
+              PAYMENT DATABASE.<br>
+              <span style="color:var(--color-steel);">TRACK &bull; AUDIT &bull; MANAGE</span>
+            </h1>
+            <p class="db-hero-desc">
+              Complete transaction ledger of all Tuma API Bank Transfers &amp; M-Pesa payments processed through the hotspot gateway. Track client names, amounts paid, settled banks, MAC bindings, and IP allocations in real-time.
+            </p>
+          </div>
+
+          <div class="db-hero-actions">
+            <button class="btn-pill-outlined" id="btn-hero-add-record" style="padding: 10px 22px;">
+              <span>+ New Payment Record &rarr;</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 Database Metric Tiles -->
+        <div class="db-metrics-grid">
+          
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <span class="metric-label">TOTAL RECORDS</span>
+              <span class="metric-tag">DB // 01</span>
+            </div>
+            <div class="metric-value" id="metric-total-records">0</div>
+            <span class="metric-sub">All Time Entries</span>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <span class="metric-label">TOTAL REVENUE</span>
+              <span class="metric-tag">DB // 02</span>
+            </div>
+            <div class="metric-value" id="metric-total-revenue">KES <small>0</small></div>
+            <span class="metric-sub">Cumulative Payments</span>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <span class="metric-label">UNIQUE CLIENTS</span>
+              <span class="metric-tag">DB // 03</span>
+            </div>
+            <div class="metric-value" id="metric-unique-clients">0</div>
+            <span class="metric-sub">Distinct MAC Addresses</span>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <span class="metric-label">LAST ENTRY</span>
+              <span class="metric-tag">DB // 04</span>
+            </div>
+            <div class="metric-value" style="color:var(--color-periwinkle-annotation); font-size:18px;" id="metric-last-entry">—</div>
+            <span class="metric-sub">Most Recent Transaction</span>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Records Table Section -->
+    <section class="db-records-section" id="records-section">
+      <div class="container">
+        
+        <div class="section-split-header">
+          <div>
+            <h2 class="section-title">Transaction Records</h2>
+            <p class="section-subtitle">Client payments, MAC bindings, and allocated IP addresses.</p>
+          </div>
+
+          <div class="db-header-controls">
+            <div class="search-input-wrapper">
+              <input type="text" id="db-search-input" class="blueprint-search-input" placeholder="Search by name, MAC, IP, or amount...">
+            </div>
+
+            <div class="db-filter-pills">
+              <button class="filter-pill active" data-filter="all">All</button>
+              <button class="filter-pill" data-filter="today">Today</button>
+              <button class="filter-pill" data-filter="week">This Week</button>
+              <button class="filter-pill" data-filter="month">This Month</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Blueprint Data Table -->
+        <div class="db-table-wrapper">
+          <table class="db-table" id="records-table">
+            <thead>
+              <tr>
+                <th class="th-sortable" data-sort="id">
+                  <span>#</span>
+                  <span class="sort-arrow">&darr;</span>
+                </th>
+                <th class="th-sortable" data-sort="name">
+                  <span>CLIENT NAME</span>
+                  <span class="sort-arrow"></span>
+                </th>
+                <th class="th-sortable" data-sort="amount">
+                  <span>PAID AMOUNT</span>
+                  <span class="sort-arrow"></span>
+                </th>
+                <th class="th-sortable" data-sort="mac">
+                  <span>MAC ADDRESS</span>
+                  <span class="sort-arrow"></span>
+                </th>
+                <th class="th-sortable" data-sort="ip">
+                  <span>IP ADDRESS</span>
+                  <span class="sort-arrow"></span>
+                </th>
+                <th class="th-sortable" data-sort="plan">
+                  <span>PLAN</span>
+                  <span class="sort-arrow"></span>
+                </th>
+                <th class="th-sortable" data-sort="date">
+                  <span>DATE & TIME</span>
+                  <span class="sort-arrow"></span>
+                </th>
+                <th class="th-sortable" data-sort="status">
+                  <span>STATUS</span>
+                  <span class="sort-arrow"></span>
+                </th>
+                <th>
+                  <span>ACTIONS</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody id="records-tbody">
+              <!-- Populated by database.js -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Empty State -->
+        <div class="db-empty-state" id="db-empty-state" style="display:none;">
+          <div class="empty-icon-db">📊</div>
+          <h3 class="empty-title">No Records Found</h3>
+          <p class="empty-desc">No payment transactions match your search, or the database is empty. Add a record to get started.</p>
+          <button class="btn-pill-outlined" id="btn-empty-add">
+            <span>+ Add First Record</span>
+          </button>
+        </div>
+
+        <!-- Pagination -->
+        <div class="db-pagination" id="db-pagination">
+          <div class="pagination-info" id="pagination-info">Showing 0 of 0 records</div>
+          <div class="pagination-controls">
+            <button class="pagination-btn" id="btn-prev-page" disabled>&larr; Prev</button>
+            <div class="pagination-pages" id="pagination-pages"></div>
+            <button class="pagination-btn" id="btn-next-page" disabled>Next &rarr;</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Export / Bulk Actions Section -->
+    <section class="db-actions-section">
+      <div class="container">
+        <div class="db-bulk-bar">
+          <div class="bulk-bar-left">
+            <span class="node-dot"></span>
+            <span class="bulk-label">BULK OPERATIONS // EXPORT & MANAGE</span>
+          </div>
+          <div class="bulk-bar-right">
+            <button class="btn-pill-outlined btn-pill-ghost" id="btn-export-csv">
+              <span>Export CSV &darr;</span>
+            </button>
+            <button class="btn-pill-outlined btn-pill-ghost" id="btn-clear-all" style="border-color: var(--color-graphite);">
+              <span>Clear All Records</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Add/Edit Record Modal -->
+  <div class="sheet-scrim" id="record-modal-scrim" aria-hidden="true">
+    <div class="sheet-container record-modal-container" id="record-modal" role="dialog" aria-modal="true" aria-labelledby="record-modal-title">
+      
+      <!-- Close Button -->
+      <button class="sheet-close-btn" id="btn-close-record-modal" aria-label="Close modal">&times;</button>
+
+      <div class="modal-blueprint-header">
+        <span class="modal-chip">PAYMENT RECORD // DATABASE ENTRY</span>
+        <h2 class="sheet-title" id="record-modal-title">Add Payment Record</h2>
+        <p class="sheet-desc">Register a new client payment transaction with MAC and IP binding.</p>
+      </div>
+
+      <form id="form-add-record" onsubmit="return false;">
+        
+        <div class="form-section-title">// CLIENT IDENTIFICATION</div>
+        
+        <div class="input-group">
+          <label for="input-client-name" class="input-label">Client Name *</label>
+          <input type="text" id="input-client-name" class="blueprint-input" placeholder="e.g. John Kamau" required>
+        </div>
+
+        <div class="input-row-duo">
+          <div class="input-group">
+            <label for="input-paid-amount" class="input-label">Paid Amount (KES) *</label>
+            <input type="number" id="input-paid-amount" class="blueprint-input" placeholder="e.g. 100" min="1" required>
+          </div>
+
+          <div class="input-group">
+            <label for="select-plan-type" class="input-label">Plan Type</label>
+            <select id="select-plan-type" class="blueprint-input blueprint-select">
+              <option value="12 Hours — KES 20">12 Hours — KES 20</option>
+              <option value="24 Hours — KES 30">24 Hours — KES 30</option>
+              <option value="2 Days — KES 50">2 Days — KES 50</option>
+              <option value="5 Days — KES 100" selected>5 Days — KES 100</option>
+              <option value="7 Days — KES 200">7 Days — KES 200</option>
+              <option value="Monthly — KES 700">Monthly — KES 700</option>
+              <option value="Custom">Custom Plan</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-section-title" style="margin-top:12px;">// NETWORK BINDING</div>
+
+        <div class="input-row-duo">
+          <div class="input-group">
+            <label for="input-mac-address" class="input-label">MAC Address *</label>
+            <input type="text" id="input-mac-address" class="blueprint-input" placeholder="AA:BB:CC:DD:EE:FF" required>
+            <span class="input-helper">Client device hardware address.</span>
+          </div>
+
+          <div class="input-group">
+            <label for="input-ip-address" class="input-label">IP Address *</label>
+            <input type="text" id="input-ip-address" class="blueprint-input" placeholder="192.168.88.xxx" required>
+            <span class="input-helper">DHCP-allocated client IP on network.</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="select-record-status" class="input-label">Payment Status</label>
+          <select id="select-record-status" class="blueprint-input blueprint-select">
+            <option value="Completed" selected>Completed</option>
+            <option value="Pending">Pending</option>
+            <option value="Failed">Failed</option>
+            <option value="Refunded">Refunded</option>
+          </select>
+        </div>
+
+        <!-- Auto-generated metadata -->
+        <div class="device-bind-box">
+          <span class="bind-node">[ &bull; ]</span>
+          <span>Transaction ID auto-generated &bull; Timestamp: <strong id="modal-timestamp">—</strong></span>
+        </div>
+
+        <div class="modal-form-actions">
+          <button type="button" class="btn-pill-outlined btn-pill-ghost" id="btn-generate-random" style="border:1px dashed var(--color-graphite);">
+            <span>Auto-Fill Sample</span>
+          </button>
+
+          <button type="submit" class="btn-submit-blueprint" id="btn-save-record">
+            <span>Save Record &rarr;</span>
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- View Record Detail Modal -->
+  <div class="sheet-scrim" id="detail-modal-scrim" aria-hidden="true">
+    <div class="sheet-container record-modal-container" id="detail-modal" role="dialog" aria-modal="true" aria-labelledby="detail-modal-title">
+      
+      <button class="sheet-close-btn" id="btn-close-detail-modal" aria-label="Close detail modal">&times;</button>
+
+      <div class="modal-blueprint-header" style="text-align:center;">
+        <span class="modal-chip">TRANSACTION DETAIL // AUDIT RECORD</span>
+        <h2 class="sheet-title" id="detail-modal-title">Payment Detail</h2>
+      </div>
+
+      <div class="detail-receipt-card" id="detail-receipt-content">
+        <!-- Populated by JS -->
+      </div>
+
+      <button class="btn-submit-blueprint" id="btn-close-detail-bottom">
+        <span>Close &times;</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <div class="footer-schematic-label">
+        <span class="node-dot"></span>
+        <span>INDEX // PAYMENT DATABASE ENGINE &bull; TRANSACTION LEDGER</span>
+      </div>
+      <div class="footer-links">
+        <span class="footer-a-link">Signed in as <strong id="admin-user-label">admin</strong></span>
+        <span style="color:var(--color-graphite);">&bull;</span>
+        <a href="dashboard.html" class="footer-a-link" style="color:var(--color-periwinkle-annotation);">Operator Dashboard &rarr;</a>
+        <span style="color:var(--color-graphite);">&bull;</span>
+        <a href="devices.html" class="footer-a-link">Router Management &rarr;</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="auth.js"></script>
+  <script>window.AirPulseAuth && AirPulseAuth.requireAdmin();</script>
+  <script src="database.js"></script>
+</body>
+</html>

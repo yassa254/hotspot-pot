@@ -1,0 +1,609 @@
+/* ==========================================================================
+   Index — Style Reference: Payment Database (database.css)
+   "Blueprint on a backlit drafting table — wireframe drawing with periwinkle annotation"
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Hero & Header Section
+   -------------------------------------------------------------------------- */
+.db-hero-section {
+  position: relative;
+  z-index: 1;
+  padding-top: clamp(28px, 4vw, 48px);
+  padding-bottom: 24px;
+  background: radial-gradient(ellipse 900px 450px at 50% 20%, #1c1c1c 0%, #000000 80%);
+}
+
+.db-hero-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: var(--spacing-20);
+  margin-top: var(--spacing-12);
+  margin-bottom: var(--spacing-24);
+}
+
+.db-hero-title {
+  font-size: clamp(32px, 4.5vw, 54px);
+  font-weight: var(--font-weight-w1000);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-paper);
+  text-transform: uppercase;
+  margin-bottom: var(--spacing-8);
+}
+
+.db-hero-desc {
+  font-size: var(--text-body-sm);
+  line-height: var(--leading-body-sm);
+  color: var(--color-steel);
+  max-width: 620px;
+}
+
+.db-hero-actions {
+  display: flex;
+  gap: var(--spacing-8);
+  align-items: center;
+}
+
+/* --------------------------------------------------------------------------
+   Database Metric Cards Grid
+   -------------------------------------------------------------------------- */
+.db-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-12);
+}
+
+/* --------------------------------------------------------------------------
+   Records Section
+   -------------------------------------------------------------------------- */
+.db-records-section {
+  position: relative;
+  z-index: 1;
+  padding: 36px 0 24px;
+  border-top: 1px dashed var(--color-graphite);
+}
+
+.db-header-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-12);
+  flex-wrap: wrap;
+}
+
+/* Filter Pills */
+.db-filter-pills {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background-color: var(--color-void);
+  border: 1px dashed var(--color-graphite);
+  border-radius: var(--radius-buttons);
+  padding: 2px;
+}
+
+.filter-pill {
+  padding: 5px 12px;
+  border: none;
+  border-radius: var(--radius-buttons);
+  background: transparent;
+  color: var(--color-steel);
+  font-family: var(--font-geist-mono);
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background-color 140ms ease, color 140ms ease;
+  white-space: nowrap;
+}
+
+.filter-pill:hover {
+  color: var(--color-paper);
+}
+
+.filter-pill.active {
+  background-color: var(--color-carbon);
+  color: var(--color-paper);
+  border: 1px dashed var(--color-periwinkle-annotation);
+}
+
+/* --------------------------------------------------------------------------
+   Blueprint Data Table
+   -------------------------------------------------------------------------- */
+.db-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px dashed var(--color-graphite);
+  background-color: var(--color-carbon);
+  margin-bottom: var(--spacing-16);
+}
+
+.db-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+
+.db-table thead {
+  background-color: var(--color-void);
+  border-bottom: 1px dashed var(--color-graphite);
+}
+
+.db-table th {
+  padding: 10px 14px;
+  text-align: left;
+  font-family: var(--font-geist-mono);
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-periwinkle-annotation);
+  white-space: nowrap;
+  border-bottom: 1px dashed var(--color-graphite);
+  position: relative;
+}
+
+.th-sortable {
+  cursor: pointer;
+  transition: color 140ms ease;
+  user-select: none;
+}
+
+.th-sortable:hover {
+  color: var(--color-paper);
+}
+
+.th-sortable.sort-active {
+  color: var(--color-paper);
+}
+
+.sort-arrow {
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 10px;
+  opacity: 0.4;
+  transition: opacity 140ms ease;
+}
+
+.th-sortable.sort-active .sort-arrow {
+  opacity: 1;
+  color: var(--color-periwinkle-annotation);
+}
+
+.db-table tbody tr {
+  border-bottom: 1px dashed rgba(77, 77, 77, 0.4);
+  transition: background-color 120ms ease;
+}
+
+.db-table tbody tr:hover {
+  background-color: rgba(112, 137, 186, 0.06);
+}
+
+.db-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.db-table td {
+  padding: 11px 14px;
+  font-size: 12px;
+  color: var(--color-paper);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* Cell-specific styling */
+.td-id {
+  font-family: var(--font-geist-mono);
+  font-size: 10px;
+  color: var(--color-steel);
+  font-weight: 500;
+}
+
+.td-name {
+  font-weight: var(--font-weight-medium);
+  letter-spacing: -0.01em;
+}
+
+.td-amount {
+  font-family: var(--font-geist-mono);
+  font-weight: 600;
+  color: var(--color-periwinkle-annotation);
+  font-size: 13px;
+}
+
+.td-mac {
+  font-family: var(--font-geist-mono);
+  font-size: 11px;
+  color: var(--color-ash);
+  letter-spacing: 0.02em;
+}
+
+.td-ip {
+  font-family: var(--font-geist-mono);
+  font-size: 11px;
+  color: var(--color-paper);
+}
+
+.td-plan {
+  font-size: 11px;
+  color: var(--color-steel);
+}
+
+.td-date {
+  font-family: var(--font-geist-mono);
+  font-size: 10px;
+  color: var(--color-steel);
+}
+
+/* Status Badge in Table */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: var(--radius-tags);
+  font-family: var(--font-geist-mono);
+  font-size: 9px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.status-badge .status-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+
+.status-completed {
+  border: 1px dashed var(--color-periwinkle-annotation);
+  color: var(--color-periwinkle-annotation);
+  background-color: var(--color-void);
+}
+
+.status-completed .status-dot {
+  background-color: var(--color-periwinkle-annotation);
+}
+
+.status-pending {
+  border: 1px dashed #c9a227;
+  color: #c9a227;
+  background-color: var(--color-void);
+}
+
+.status-pending .status-dot {
+  background-color: #c9a227;
+}
+
+.status-failed {
+  border: 1px dashed #b04a4a;
+  color: #b04a4a;
+  background-color: var(--color-void);
+}
+
+.status-failed .status-dot {
+  background-color: #b04a4a;
+}
+
+.status-refunded {
+  border: 1px dashed var(--color-steel);
+  color: var(--color-steel);
+  background-color: var(--color-void);
+}
+
+.status-refunded .status-dot {
+  background-color: var(--color-steel);
+}
+
+/* Row Actions */
+.td-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.row-action-btn {
+  background: transparent;
+  border: 1px dashed var(--color-graphite);
+  border-radius: var(--radius-buttons);
+  color: var(--color-steel);
+  padding: 3px 8px;
+  font-family: var(--font-geist-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 120ms ease, color 120ms ease;
+  white-space: nowrap;
+}
+
+.row-action-btn:hover {
+  border-color: var(--color-paper);
+  color: var(--color-paper);
+}
+
+.row-action-btn.delete-btn:hover {
+  border-color: #b04a4a;
+  color: #b04a4a;
+}
+
+/* --------------------------------------------------------------------------
+   Empty State
+   -------------------------------------------------------------------------- */
+.db-empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  background-color: var(--color-carbon);
+  border: 1px dashed var(--color-graphite);
+  margin-bottom: var(--spacing-16);
+}
+
+.empty-icon-db {
+  font-size: 36px;
+  margin-bottom: var(--spacing-12);
+  opacity: 0.6;
+}
+
+/* --------------------------------------------------------------------------
+   Pagination
+   -------------------------------------------------------------------------- */
+.db-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  margin-bottom: 24px;
+}
+
+.pagination-info {
+  font-family: var(--font-geist-mono);
+  font-size: 10px;
+  color: var(--color-steel);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pagination-btn {
+  padding: 5px 12px;
+  border: 1px dashed var(--color-graphite);
+  border-radius: var(--radius-buttons);
+  background: transparent;
+  color: var(--color-steel);
+  font-family: var(--font-geist-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 120ms ease, color 120ms ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  border-color: var(--color-paper);
+  color: var(--color-paper);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.pagination-pages {
+  display: flex;
+  gap: 2px;
+}
+
+.page-num-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--color-graphite);
+  border-radius: var(--radius-buttons);
+  background: transparent;
+  color: var(--color-steel);
+  font-family: var(--font-geist-mono);
+  font-size: 10px;
+  cursor: pointer;
+  transition: border-color 120ms ease, color 120ms ease, background-color 120ms ease;
+}
+
+.page-num-btn:hover {
+  border-color: var(--color-paper);
+  color: var(--color-paper);
+}
+
+.page-num-btn.active {
+  background-color: var(--color-periwinkle-annotation);
+  border-color: var(--color-periwinkle-annotation);
+  color: var(--color-void);
+}
+
+/* --------------------------------------------------------------------------
+   Bulk Actions Bar
+   -------------------------------------------------------------------------- */
+.db-actions-section {
+  position: relative;
+  z-index: 1;
+  padding: 0 0 40px;
+}
+
+.db-bulk-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background-color: var(--color-carbon);
+  border: 1px dashed var(--color-graphite);
+  flex-wrap: wrap;
+  gap: var(--spacing-12);
+}
+
+.bulk-bar-left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+}
+
+.bulk-label {
+  font-family: var(--font-geist-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-steel);
+}
+
+.bulk-bar-right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+}
+
+/* --------------------------------------------------------------------------
+   Record Modal Container Override
+   -------------------------------------------------------------------------- */
+.record-modal-container {
+  max-width: 560px;
+  background-color: var(--color-carbon);
+  border: 1px dashed var(--color-graphite);
+}
+
+/* --------------------------------------------------------------------------
+   Detail Receipt Card
+   -------------------------------------------------------------------------- */
+.detail-receipt-card {
+  background-color: var(--color-void);
+  border: 1px dashed var(--color-graphite);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: var(--spacing-16);
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+  border-bottom: 1px dashed rgba(77, 77, 77, 0.3);
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  font-family: var(--font-geist-mono);
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-steel);
+}
+
+.detail-value {
+  font-family: var(--font-geist-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-paper);
+  text-align: right;
+}
+
+.detail-value.highlight {
+  color: var(--color-periwinkle-annotation);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   Row Entrance Animation
+   -------------------------------------------------------------------------- */
+@keyframes rowSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.db-table tbody tr {
+  animation: rowSlideIn 0.25s ease forwards;
+}
+
+.db-table tbody tr:nth-child(1) { animation-delay: 0.02s; }
+.db-table tbody tr:nth-child(2) { animation-delay: 0.04s; }
+.db-table tbody tr:nth-child(3) { animation-delay: 0.06s; }
+.db-table tbody tr:nth-child(4) { animation-delay: 0.08s; }
+.db-table tbody tr:nth-child(5) { animation-delay: 0.10s; }
+.db-table tbody tr:nth-child(6) { animation-delay: 0.12s; }
+.db-table tbody tr:nth-child(7) { animation-delay: 0.14s; }
+.db-table tbody tr:nth-child(8) { animation-delay: 0.16s; }
+.db-table tbody tr:nth-child(9) { animation-delay: 0.18s; }
+.db-table tbody tr:nth-child(10) { animation-delay: 0.20s; }
+
+/* --------------------------------------------------------------------------
+   Responsive Adaptations
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .db-metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .db-header-controls {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .search-input-wrapper {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .db-metrics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .db-hero-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .db-filter-pills {
+    flex-wrap: wrap;
+  }
+
+  .db-pagination {
+    flex-direction: column;
+    gap: var(--spacing-12);
+  }
+
+  .db-bulk-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .bulk-bar-right {
+    flex-wrap: wrap;
+  }
+
+  .input-row-duo {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-form-actions {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>AirPulse // Operator Command Dashboard</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Unified Hotspot Operator Dashboard to handle Tuma API bank transfer payments and manage MikroTik RouterOS gateways and connected client devices.">
+  <style>html.auth-pending body{visibility:hidden}</style>
+  <script>document.documentElement.classList.add('auth-pending');</script>
+
+  <!-- Index Meta & Display Settings -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="theme-color" content="#000000">
+
+  <!-- Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body class="dashboard-body">
+
+  <!-- Top Navigation (Blueprint Drafting Chrome) -->
+  <header class="app-header">
+    <div class="nav-container">
+      
+      <!-- Brand Identity -->
+      <a href="dashboard.html" class="nav-brand" aria-label="AirPulse Operator Dashboard">
+        <span class="brand-bracket-mark">[ &bull; ]</span>
+        <span class="brand-title">AirPulse</span>
+        <span class="brand-slash">/</span>
+        <span class="brand-subtag">Command Dashboard</span>
+      </a>
+
+      <!-- Realtime Operational Telemetry Chip -->
+      <div class="hardware-telemetry-chip" id="hud-telemetry-chip">
+        <span class="node-dot"></span>
+        <span>GATEWAYS: <strong class="chip-val" id="hud-gateways-count">3 Synced</strong></span>
+        <span class="chip-sep">&bull;</span>
+        <span>LEASES: <strong class="chip-val" id="hud-leases-count">14 Active</strong></span>
+        <span class="chip-sep">&bull;</span>
+        <span>TUMA BANK: <strong class="chip-accent" id="hud-bank-status">SETTLED</strong></span>
+      </div>
+
+      <!-- Action Outlined Pill Buttons -->
+      <div class="nav-actions">
+        <a href="index.html" class="btn-pill-outlined btn-pill-ghost" id="btn-portal-link">
+          <span>Preview Portal</span>
+        </a>
+
+        <a href="devices.html" class="btn-pill-outlined btn-pill-ghost" id="btn-routers-link">
+          <span>Routers &rarr;</span>
+        </a>
+
+        <a href="database.html" class="btn-pill-outlined btn-pill-ghost" id="btn-database-link">
+          <span>Payment DB &rarr;</span>
+        </a>
+
+        <button class="btn-pill-outlined" id="btn-quick-authorize">
+          <span>+ Authorize MAC</span>
+        </button>
+
+        <button class="btn-pill-outlined btn-pill-ghost" data-admin-logout>
+          <span>Sign Out</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Main Dashboard Canvas -->
+  <main class="page-main dashboard-main">
+    
+    <!-- Hero / HUD Overview Section -->
+    <section class="dashboard-hero-section">
+      <div class="container">
+        
+        <div class="eyebrow-chip">
+          <span class="eyebrow-pen">&bull;</span>
+          <span>ROUTEROS v7.x &bull; TUMA API GATEWAY // UNIFIED OPERATOR HUD</span>
+        </div>
+
+        <div class="dashboard-hero-header">
+          <div>
+            <h1 class="dashboard-hero-title">
+              HOTSPOT DASHBOARD.<br>
+              <span style="color:var(--color-steel);">PAYMENTS &bull; BANK SETTLEMENT &bull; DEVICES</span>
+            </h1>
+            <p class="dashboard-hero-desc">
+              Centralized network command center. Monitor Tuma API bank transfer settlements in real-time, audit client transaction ledgers, manage RouterOS gateways, and control live connected client devices.
+            </p>
+          </div>
+
+          <div class="dashboard-hero-actions">
+            <button class="btn-pill-outlined" id="btn-hero-new-payment" style="padding: 10px 18px;">
+              <span>+ Log Bank Payment &rarr;</span>
+            </button>
+            <button class="btn-pill-outlined btn-pill-ghost" id="btn-hero-config-tuma" style="border: 1px dashed var(--color-periwinkle-annotation); color: var(--color-paper); padding: 10px 18px;">
+              <span>⚙️ Tuma Bank Config</span>
+            </button>
+            <button class="btn-pill-outlined btn-pill-ghost" id="btn-change-admin-password" style="padding: 10px 18px;">
+              <span>Change Admin Password</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 Core Executive Metric Tiles (CAD Wireframe Style) -->
+        <div class="dashboard-metrics-grid">
+          
+          <!-- Metric 1: Total Banked Revenue -->
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <span class="metric-label">TOTAL BANKED REVENUE</span>
+              <span class="metric-tag">TUMA // BANK</span>
+            </div>
+            <div class="metric-value" id="dash-metric-revenue">KES <small>0</small></div>
+            <span class="metric-sub">
+              Settled to <span id="dash-metric-bank-dest" style="color:var(--color-periwinkle-annotation);">Equity Bank</span>
+            </span>
+          </div>
+
+          <!-- Metric 2: Active Connected Devices -->
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <span class="metric-label">ACTIVE CLIENT LEASES</span>
+              <span class="metric-tag">MAC // LEASES</span>
+            </div>
+            <div class="metric-value" id="dash-metric-active-devices">0</div>
+            <span class="metric-sub">Live Connected Handsets &amp; Laptops</span>
+          </div>
+
+          <!-- Metric 3: RouterOS Gateways -->
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <span class="metric-label">ROUTEROS FLEET</span>
+              <span class="metric-tag">GW // v7.x</span>
+            </div>
+            <div class="metric-value" id="dash-metric-gateways">3</div>
+            <span class="metric-sub">All Gateways Synced &amp; Routing</span>
+          </div>
+
+          <!-- Metric 4: Today's Bank Transfer Volume -->
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <span class="metric-label">TODAY'S BANK TRANSFERS</span>
+              <span class="metric-tag">SETTLED // 24H</span>
+            </div>
+            <div class="metric-value" style="color:var(--color-periwinkle-annotation);" id="dash-metric-today-revenue">KES <small>0</small></div>
+            <span class="metric-sub" id="dash-metric-today-count">0 Cleared Transfers Today</span>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Operational View Navigation Tabs -->
+    <section class="dashboard-tabs-section">
+      <div class="container">
+        <div class="dashboard-tabs-bar" role="tablist">
+          <button class="dash-tab-btn active" id="tab-btn-payments" data-view="payments">
+            <span class="tab-icon">💳</span>
+            <span>Payments &amp; Bank Transfers</span>
+            <span class="dash-badge" id="badge-payments-count">0</span>
+          </button>
+          
+          <button class="dash-tab-btn" id="tab-btn-devices" data-view="devices">
+            <span class="tab-icon">📡</span>
+            <span>Device &amp; Gateway Manager</span>
+            <span class="dash-badge" id="badge-devices-count">0</span>
+          </button>
+
+          <button class="dash-tab-btn" id="tab-btn-tuma-config" data-view="tuma-config">
+            <span class="tab-icon">⚙️</span>
+            <span>Tuma API Bank Settings</span>
+          </button>
+
+          <button class="dash-tab-btn" id="tab-btn-telemetry" data-view="telemetry">
+            <span class="tab-icon">📊</span>
+            <span>Live Traffic &amp; Audit Log</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 1: PAYMENTS & TUMA BANK TRANSFERS MANAGEMENT -->
+    <section class="dashboard-view-panel active" id="view-panel-payments">
+      <div class="container">
+        
+        <!-- Beneficiary Bank Status Banner -->
+        <div class="bank-operator-banner">
+          <div class="bank-banner-left">
+            <div class="bank-pill-chip">
+              <span class="node-dot"></span>
+              <span>SETTLEMENT DESTINATION</span>
+            </div>
+            <div class="bank-account-headline">
+              <span class="bank-badge-title" id="banner-bank-name">Equity Bank Kenya</span>
+              <span class="bank-dot">&bull;</span>
+              <span>A/C: <strong id="banner-account-num">0180293847291</strong></span>
+              <span class="bank-dot">&bull;</span>
+              <span>Holder: <strong id="banner-account-name">AirPulse Hotspot Networks</strong></span>
+            </div>
+            <p class="bank-banner-sub">
+              Tuma API clears payments directly into this bank account via PesaLink instant inter-bank settlement.
+            </p>
+          </div>
+
+          <div class="bank-banner-actions">
+            <button class="btn-pill-outlined btn-pill-ghost" id="btn-reconcile-bank">
+              <span>Reconcile Ledger</span>
+            </button>
+            <button class="btn-pill-outlined btn-pill-ghost" id="btn-export-payments-csv">
+              <span>Export CSV &darr;</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter & Search Controls Header -->
+        <div class="section-split-header">
+          <div>
+            <h2 class="section-title">Bank Transfer Ledger</h2>
+            <p class="section-subtitle">Real-time record of all payments settled into bank account via Tuma API.</p>
+          </div>
+
+          <div class="db-header-controls">
+            <div class="search-input-wrapper">
+              <input type="text" id="payments-search-input" class="blueprint-search-input" placeholder="Search by client, Tuma ref, MAC, or bank...">
+            </div>
+
+            <div class="db-filter-pills">
+              <button class="filter-pill active" data-pay-filter="all">All</button>
+              <button class="filter-pill" data-pay-filter="today">Today</button>
+              <button class="filter-pill" data-pay-filter="bank">Bank Transfer</button>
+              <button class="filter-pill" data-pay-filter="stk">M-Pesa to Bank</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Responsive Payments Table Wrapper -->
+        <div class="db-table-wrapper">
+          <table class="db-table" id="dashboard-payments-table">
+            <thead>
+              <tr>
+                <th>TUMA REF</th>
+                <th>CLIENT NAME</th>
+                <th>AMOUNT</th>
+                <th>SETTLED BANK</th>
+                <th>CHANNEL</th>
+                <th>MAC ADDRESS</th>
+                <th>PLAN</th>
+                <th>DATE &amp; TIME</th>
+                <th>STATUS</th>
+                <th>ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody id="dashboard-payments-tbody">
+              <!-- Populated by dashboard.js -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Empty State for Payments -->
+        <div class="db-empty-state" id="payments-empty-state" style="display:none;">
+          <div class="empty-icon-db">💳</div>
+          <h3 class="empty-title">No Transactions Found</h3>
+          <p class="empty-desc">No payment transactions match the active filter or search criteria.</p>
+          <button class="btn-pill-outlined" id="btn-empty-add-payment">
+            <span>+ Log First Bank Payment</span>
+          </button>
+        </div>
+
+        <!-- Pagination -->
+        <div class="db-pagination" id="payments-pagination">
+          <div class="pagination-info" id="payments-pagination-info">Showing 0 of 0 records</div>
+          <div class="pagination-controls">
+            <button class="pagination-btn" id="btn-pay-prev" disabled>&larr; Prev</button>
+            <div class="pagination-pages" id="payments-pagination-pages"></div>
+            <button class="pagination-btn" id="btn-pay-next" disabled>Next &rarr;</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TAB 2: DEVICE & GATEWAY MANAGEMENT -->
+    <section class="dashboard-view-panel" id="view-panel-devices">
+      <div class="container">
+        
+        <!-- SECTION 2A: ROUTEROS GATEWAY FLEET -->
+        <div class="devices-sub-header">
+          <div>
+            <div class="eyebrow-chip">
+              <span class="eyebrow-pen">&bull;</span>
+              <span>MIKROTIK ROUTEROS v7 API // HARDWARE FLEET</span>
+            </div>
+            <h2 class="section-title">RouterOS Gateways</h2>
+            <p class="section-subtitle">Provisioned physical and virtual MikroTik routers running captive portal services.</p>
+          </div>
+
+          <div class="devices-sub-actions">
+            <button class="btn-pill-outlined" id="btn-dash-add-router">
+              <span>+ Provision Gateway &rarr;</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="router-cards-grid" id="dashboard-routers-grid">
+          <!-- Populated by dashboard.js -->
+        </div>
+
+        <!-- SECTION 2B: LIVE CONNECTED CLIENT DEVICES -->
+        <div class="devices-sub-header" style="margin-top: 36px;">
+          <div>
+            <div class="eyebrow-chip">
+              <span class="eyebrow-pen">&bull;</span>
+              <span>DHCP LEASES &bull; RADIUS ACTIVE // CONNECTED CLIENT DEVICES</span>
+            </div>
+            <h2 class="section-title">Connected Client Devices (Active Leases)</h2>
+            <p class="section-subtitle">Live user handsets, laptops, and Wi-Fi stations authenticated on the gateway.</p>
+          </div>
+
+          <div class="devices-sub-actions">
+            <div class="search-input-wrapper" style="width: 240px;">
+              <input type="text" id="clients-search-input" class="blueprint-search-input" placeholder="Filter by MAC, IP, or device...">
+            </div>
+            <button class="btn-pill-outlined" id="btn-dash-authorize-mac">
+              <span>+ Authorize Device MAC</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="db-table-wrapper">
+          <table class="db-table" id="clients-table">
+            <thead>
+              <tr>
+                <th>CLIENT MAC</th>
+                <th>IP ADDRESS</th>
+                <th>CLIENT / DEVICE</th>
+                <th>PLAN ALLOCATED</th>
+                <th>SESSION REMAINING</th>
+                <th>DATA USAGE</th>
+                <th>GATEWAY</th>
+                <th>STATUS</th>
+                <th>OPERATOR ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody id="clients-tbody">
+              <!-- Populated by dashboard.js -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Empty State for Clients -->
+        <div class="db-empty-state" id="clients-empty-state" style="display:none;">
+          <div class="empty-icon-db">📱</div>
+          <h3 class="empty-title">No Connected Clients</h3>
+          <p class="empty-desc">No client devices currently active on the hotspot network.</p>
+          <button class="btn-pill-outlined" id="btn-empty-auth-client">
+            <span>+ Authorize a Device MAC</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TAB 3: TUMA API & BANK SETTLEMENT CONFIGURATION -->
+    <section class="dashboard-view-panel" id="view-panel-tuma-config">
+      <div class="container">
+        
+        <div class="settings-grid-layout">
+          
+          <!-- Left Column: Bank Settlement Credentials -->
+          <div class="settings-card">
+            <div class="settings-card-header">
+              <span class="settings-mono-tag">API // TUMA BANK GATEWAY</span>
+              <h3 class="settings-card-title">Bank Settlement Configuration</h3>
+              <p class="settings-card-desc">
+                Configure your Tuma API credentials and beneficiary bank account. All hotspot payments will settle directly into this account.
+              </p>
+            </div>
+
+            <form id="form-tuma-settings" onsubmit="return false;">
+              <div class="input-group">
+                <label for="set-tuma-api-key" class="input-label">Tuma API Secret / Public Key *</label>
+                <input type="text" id="set-tuma-api-key" class="blueprint-input" placeholder="tuma_live_sec_..." required autocomplete="off">
+                <span class="input-helper">Generated from merchant.tuma.co.ke under Developer settings.</span>
+              </div>
+
+              <div class="input-group">
+                <label for="set-tuma-merchant-id" class="input-label">Tuma Merchant ID</label>
+                <input type="text" id="set-tuma-merchant-id" class="blueprint-input" placeholder="TUMA-MCH-8820" value="TUMA-MCH-8820" autocomplete="off">
+              </div>
+
+              <div class="input-group">
+                <label for="set-bank-name" class="input-label">Beneficiary Settlement Bank *</label>
+                <select id="set-bank-name" class="blueprint-select">
+                  <option value="Equity Bank Kenya" selected>Equity Bank Kenya (068)</option>
+                  <option value="KCB Bank Kenya">KCB Bank Kenya (001)</option>
+                  <option value="Co-operative Bank">Co-operative Bank of Kenya (011)</option>
+                  <option value="NCBA Bank Kenya">NCBA Bank Kenya (007)</option>
+                  <option value="Stanbic Bank Kenya">Stanbic Bank Kenya (031)</option>
+                  <option value="Absa Bank Kenya">Absa Bank Kenya (003)</option>
+                  <option value="Diamond Trust Bank">Diamond Trust Bank (063)</option>
+                  <option value="Standard Chartered">Standard Chartered Kenya (002)</option>
+                  <option value="Family Bank">Family Bank (070)</option>
+                  <option value="I&M Bank Kenya">I&M Bank Kenya (067)</option>
+                </select>
+                <span class="input-helper">Commercial bank where your business account is domiciled.</span>
+              </div>
+
+              <div class="input-group">
+                <label for="set-account-number" class="input-label">Bank Account Number *</label>
+                <input type="text" id="set-account-number" class="blueprint-input" placeholder="0180293847291" required autocomplete="off">
+              </div>
+
+              <div class="input-group">
+                <label for="set-account-name" class="input-label">Beneficiary Account Name *</label>
+                <input type="text" id="set-account-name" class="blueprint-input" placeholder="AirPulse Hotspot Networks Ltd" required autocomplete="name">
+              </div>
+
+              <div class="settings-toggle-row">
+                <div>
+                  <strong>Instant Auto-Settlement</strong>
+                  <p style="font-size:11px; color:var(--color-steel);">Automatically clear each hotspot fee into bank account instantly upon user payment.</p>
+                </div>
+                <input type="checkbox" id="set-auto-settle" checked style="accent-color: var(--color-periwinkle-annotation); width: 18px; height: 18px; cursor: pointer;">
+              </div>
+
+              <div class="settings-actions">
+                <button type="button" class="btn-pill-outlined btn-pill-ghost" id="btn-test-tuma-api" style="border: 1px dashed var(--color-graphite);">
+                  <span>Test API Connection</span>
+                </button>
+                <button type="submit" class="btn-submit-blueprint" id="btn-save-tuma-settings">
+                  <span>Save Bank Settings &rarr;</span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Right Column: API Diagnostics & Webhook Telemetry -->
+          <div class="settings-card">
+            <div class="settings-card-header">
+              <span class="settings-mono-tag">DIAGNOSTICS // GATEWAY TELEMETRY</span>
+              <h3 class="settings-card-title">Tuma Gateway Health</h3>
+              <p class="settings-card-desc">
+                Real-time API ping test, webhook endpoint synchronization, and RouterOS radius radius-binding check.
+              </p>
+            </div>
+
+            <div class="diagnostics-box">
+              <div class="diag-item">
+                <div class="diag-header">
+                  <span>API ENDPOINT STATUS</span>
+                  <span class="diag-val" id="diag-endpoint-status" style="color:var(--color-paper);">&check; 200 OK (https://api.tuma.co.ke)</span>
+                </div>
+                <span class="diag-sub">Latency: <strong id="diag-ping">14ms</strong> &bull; SSL: TLS 1.3 Valid</span>
+              </div>
+
+              <div class="diag-item">
+                <div class="diag-header">
+                  <span>BANK CLEARING PROTOCOL</span>
+                  <span class="diag-val" style="color:var(--color-periwinkle-annotation);">PesaLink Instant Settlement</span>
+                </div>
+                <span class="diag-sub">Real-Time Gross Settlement &bull; Direct Account Credit</span>
+              </div>
+
+              <div class="diag-item">
+                <div class="diag-header">
+                  <span>WEBHOOK CALLBACK URL</span>
+                  <span class="diag-val" style="font-family:var(--font-geist-mono); font-size:10px;">https://wifi.airpulse.net/api/tuma-callback</span>
+                </div>
+                <span class="diag-sub">Auto-notifies RouterOS upon client bank payment</span>
+              </div>
+
+              <div class="diag-item">
+                <div class="diag-header">
+                  <span>RADIUS SECRET KEY</span>
+                  <span class="diag-val" style="font-family:var(--font-geist-mono); font-size:10px;">••••••••••••••••</span>
+                </div>
+                <span class="diag-sub">Port 1812/1813 MikroTik AAA handshake active</span>
+              </div>
+            </div>
+
+            <!-- Terminal Visualizer -->
+            <div class="cad-terminal">
+              <div class="terminal-bar">
+                <span class="term-dot"></span>
+                <span>TUMA API DEBUG TERMINAL</span>
+              </div>
+              <pre class="terminal-body" id="tuma-terminal-output">> [SYS] Tuma Bank Gateway Initialized
+> [SYS] Beneficiary Bank: Equity Bank Kenya (A/C: 0180293847291)
+> [NET] Polling api.tuma.co.ke/v1/health ... 200 OK
+> [SEC] HMAC SHA256 Signature Verified
+> [HOTSPOT] Ready to route client payments into bank ledger.</pre>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TAB 4: LIVE NETWORK & BANDWIDTH TELEMETRY -->
+    <section class="dashboard-view-panel" id="view-panel-telemetry">
+      <div class="container">
+        
+        <div class="section-split-header">
+          <div>
+            <h2 class="section-title">Network Throughput &amp; Audit Log</h2>
+            <p class="section-subtitle">Real-time bandwidth usage across all gateways and timestamped security audit feed.</p>
+          </div>
+        </div>
+
+        <div class="telemetry-grid">
+          
+          <!-- Bandwidth Graph (Blueprint CAD Style) -->
+          <div class="graph-card">
+            <div class="graph-header">
+              <div class="graph-header-left">
+                <span class="node-dot"></span>
+                <span>AGGREGATE THROUGHPUT (RX / TX)</span>
+              </div>
+              <div class="graph-legend">
+                <span class="legend-item"><span class="legend-color-tx"></span> Download (142 Mbps)</span>
+                <span class="legend-item"><span class="legend-color-rx"></span> Upload (38 Mbps)</span>
+              </div>
+            </div>
+
+            <!-- Animated SVG Graph -->
+            <div class="svg-graph-container">
+              <svg viewBox="0 0 800 200" preserveAspectRatio="none" class="cad-svg-chart">
+                <defs>
+                  <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#7089ba" stop-opacity="0.35"/>
+                    <stop offset="100%" stop-color="#7089ba" stop-opacity="0.0"/>
+                  </linearGradient>
+                </defs>
+                <!-- Grid Lines -->
+                <line x1="0" y1="50" x2="800" y2="50" stroke="#2a2a2a" stroke-dasharray="4 4" />
+                <line x1="0" y1="100" x2="800" y2="100" stroke="#2a2a2a" stroke-dasharray="4 4" />
+                <line x1="0" y1="150" x2="800" y2="150" stroke="#2a2a2a" stroke-dasharray="4 4" />
+                <!-- Area Under Curve -->
+                <path d="M 0 160 Q 120 110 200 130 T 400 70 T 600 90 T 800 60 L 800 200 L 0 200 Z" fill="url(#chartGradient)"></path>
+                <!-- TX Curve -->
+                <path d="M 0 160 Q 120 110 200 130 T 400 70 T 600 90 T 800 60" fill="none" stroke="#7089ba" stroke-width="2" />
+                <!-- RX Curve -->
+                <path d="M 0 180 Q 120 150 200 160 T 400 120 T 600 140 T 800 110" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="3 3" />
+              </svg>
+            </div>
+
+            <div class="graph-footer-stats">
+              <div class="stat-col">
+                <span class="stat-label">PEAK RX</span>
+                <span class="stat-val">189.4 Mbps</span>
+              </div>
+              <div class="stat-col">
+                <span class="stat-label">PEAK TX</span>
+                <span class="stat-val">52.1 Mbps</span>
+              </div>
+              <div class="stat-col">
+                <span class="stat-label">TOTAL 24H TRANSFERRED</span>
+                <span class="stat-val">2.84 TB</span>
+              </div>
+              <div class="stat-col">
+                <span class="stat-label">PACKET DROP RATE</span>
+                <span class="stat-val">0.002%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Realtime Event Log -->
+          <div class="event-log-card">
+            <div class="graph-header">
+              <span class="settings-mono-tag">AUDIT LOG // REALTIME</span>
+              <button class="btn-pill-outlined btn-pill-ghost" id="btn-clear-audit-log" style="font-size:9px; padding: 2px 8px;">
+                <span>Clear</span>
+              </button>
+            </div>
+
+            <div class="event-feed-list" id="event-feed-list">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL 1: Authorize Device MAC Manually -->
+  <div class="sheet-scrim" id="modal-auth-mac-scrim" aria-hidden="true">
+    <div class="sheet-container record-modal-container" id="modal-auth-mac" role="dialog" aria-modal="true" aria-labelledby="modal-auth-title">
+      <button class="sheet-close-btn" id="btn-close-auth-mac">&times;</button>
+
+      <div class="modal-blueprint-header">
+        <span class="modal-chip">NETWORK PROVISIONING // CLIENT MAC BINDING</span>
+        <h2 class="sheet-title" id="modal-auth-title">Authorize Device MAC</h2>
+        <p class="sheet-desc">Manually bind a client MAC to RouterOS gateway without payment requirement.</p>
+      </div>
+
+      <form id="form-auth-mac" onsubmit="return false;">
+        <div class="input-group">
+          <label for="auth-input-mac" class="input-label">Hardware MAC Address *</label>
+          <input type="text" id="auth-input-mac" class="blueprint-input" placeholder="AA:BB:CC:DD:EE:FF" required autocomplete="off">
+          <span class="input-helper">Client phone or computer physical network address.</span>
+        </div>
+
+        <div class="input-row-duo">
+          <div class="input-group">
+            <label for="auth-input-name" class="input-label">Client Name / Owner</label>
+            <input type="text" id="auth-input-name" class="blueprint-input" placeholder="e.g. VIP Guest Kamau" required autocomplete="name">
+          </div>
+
+          <div class="input-group">
+            <label for="auth-select-plan" class="input-label">Access Duration Pass</label>
+            <select id="auth-select-plan" class="blueprint-select">
+              <option value="12 Hours">12 Hours Pass</option>
+              <option value="24 Hours" selected>24 Hours Pass (1 Day)</option>
+              <option value="2 Days">2 Days Pass</option>
+              <option value="5 Days">5 Days Pass</option>
+              <option value="7 Days">7 Days Pro Pass</option>
+              <option value="Monthly">Monthly Unlimited Pass</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="auth-select-gateway" class="input-label">Target Router Gateway</label>
+          <select id="auth-select-gateway" class="blueprint-select">
+            <option value="Main-Lobby-Core-AP">Main-Lobby-Core-AP (192.168.88.1)</option>
+            <option value="East-Wing-CCR-Gateway">East-Wing-CCR-Gateway (192.168.89.1)</option>
+            <option value="Outdoor-Campus-AP">Outdoor-Campus-AP (192.168.90.1)</option>
+          </select>
+        </div>
+
+        <div class="modal-form-actions">
+          <button type="button" class="btn-pill-outlined btn-pill-ghost" id="btn-auth-sample-mac">
+            <span>Generate MAC</span>
+          </button>
+          <button type="submit" class="btn-submit-blueprint" id="btn-submit-auth-mac">
+            <span>Authorize Device &rarr;</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: Log Bank Payment Manually -->
+  <div class="sheet-scrim" id="modal-log-payment-scrim" aria-hidden="true">
+    <div class="sheet-container record-modal-container" id="modal-log-payment" role="dialog" aria-modal="true" aria-labelledby="modal-log-title">
+      <button class="sheet-close-btn" id="btn-close-log-payment">&times;</button>
+
+      <div class="modal-blueprint-header">
+        <span class="modal-chip">TUMA BANK TRANSFER // MANUAL ENTRY</span>
+        <h2 class="sheet-title" id="modal-log-title">Log Bank Transfer</h2>
+        <p class="sheet-desc">Register verified bank deposit into the AirPulse transaction ledger.</p>
+      </div>
+
+      <form id="form-log-payment" onsubmit="return false;">
+        <div class="input-group">
+          <label for="log-client-name" class="input-label">Client Name *</label>
+          <input type="text" id="log-client-name" class="blueprint-input" placeholder="e.g. David Mwangi" required autocomplete="name">
+        </div>
+
+        <div class="input-row-duo">
+          <div class="input-group">
+            <label for="log-paid-amount" class="input-label">Amount (KES) *</label>
+            <input type="number" id="log-paid-amount" class="blueprint-input" placeholder="100" min="1" required>
+          </div>
+
+          <div class="input-group">
+            <label for="log-sending-bank" class="input-label">Sending Bank</label>
+            <select id="log-sending-bank" class="blueprint-select">
+              <option value="Equity Bank">Equity Bank</option>
+              <option value="KCB Bank">KCB Bank</option>
+              <option value="Co-operative Bank">Co-operative Bank</option>
+              <option value="NCBA Bank">NCBA Bank</option>
+              <option value="Stanbic Bank">Stanbic Bank</option>
+              <option value="Absa Bank">Absa Bank</option>
+              <option value="Other Bank">Other Bank</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="input-row-duo">
+          <div class="input-group">
+            <label for="log-mac-address" class="input-label">MAC Address *</label>
+            <input type="text" id="log-mac-address" class="blueprint-input" placeholder="AA:BB:CC:DD:EE:FF" required>
+          </div>
+
+          <div class="input-group">
+            <label for="log-plan-type" class="input-label">Plan</label>
+            <select id="log-plan-type" class="blueprint-select">
+              <option value="12 Hours Pass — KES 20">12 Hours Pass (KES 20)</option>
+              <option value="24 Hours Pass — KES 30" selected>24 Hours Pass (KES 30)</option>
+              <option value="2 Days Pass — KES 50">2 Days Pass (KES 50)</option>
+              <option value="5 Days Pass — KES 100">5 Days Pass (KES 100)</option>
+              <option value="7 Days Pro Pass — KES 200">7 Days Pro Pass (KES 200)</option>
+              <option value="Monthly Unlimited — KES 700">Monthly Unlimited (KES 700)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="log-bank-reference" class="input-label">Bank Transaction Reference (Optional)</label>
+          <input type="text" id="log-bank-reference" class="blueprint-input" placeholder="e.g. TUMA-BNK-99214">
+        </div>
+
+        <div class="modal-form-actions">
+          <button type="submit" class="btn-submit-blueprint" id="btn-submit-log-payment">
+            <span>Commit to Bank Ledger &rarr;</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 3: View Bank Receipt Detail -->
+  <div class="sheet-scrim" id="modal-receipt-scrim" aria-hidden="true">
+    <div class="sheet-container record-modal-container" id="modal-receipt" role="dialog" aria-modal="true" aria-labelledby="receipt-dialog-title">
+      <button class="sheet-close-btn" id="btn-close-receipt">&times;</button>
+
+      <div class="modal-blueprint-header" style="text-align:center;">
+        <span class="modal-chip">TUMA API // OFFICIAL BANK SETTLEMENT RECEIPT</span>
+        <h2 class="sheet-title" id="receipt-dialog-title">Transaction Receipt</h2>
+      </div>
+
+      <div class="detail-receipt-card" id="receipt-dialog-content">
+        <!-- Populated by JS -->
+      </div>
+
+      <button class="btn-submit-blueprint" id="btn-close-receipt-bottom">
+        <span>Close &times;</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <div class="footer-schematic-label">
+        <span class="node-dot"></span>
+        <span>INDEX // UNIFIED OPERATOR COMMAND CENTER &bull; TUMA API ENGINE</span>
+      </div>
+      <div class="footer-links">
+        <span class="footer-a-link">Signed in as <strong id="admin-user-label">admin</strong></span>
+        <span style="color:var(--color-graphite);">&bull;</span>
+        <a href="devices.html" class="footer-a-link">Router Management &rarr;</a>
+        <span style="color:var(--color-graphite);">&bull;</span>
+        <a href="database.html" class="footer-a-link">Payment Database &rarr;</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="sheet-scrim" id="modal-password-scrim" aria-hidden="true">
+    <div class="sheet-container record-modal-container" role="dialog" aria-modal="true" aria-labelledby="modal-password-title">
+      <button class="sheet-close-btn" id="btn-close-password">&times;</button>
+      <div class="modal-blueprint-header">
+        <span class="modal-chip">SECURITY // OPERATOR CREDENTIALS</span>
+        <h2 class="sheet-title" id="modal-password-title">Change Admin Password</h2>
+        <p class="sheet-desc">Replace the default operator login. Only this account can open dashboard, routers, and the payment database.</p>
+      </div>
+      <form id="form-change-password" onsubmit="return false;">
+        <div class="input-group">
+          <label for="new-admin-username" class="input-label">Admin Username</label>
+          <input type="text" id="new-admin-username" class="blueprint-input" autocomplete="username">
+        </div>
+        <div class="input-group">
+          <label for="current-admin-password" class="input-label">Current Password *</label>
+          <input type="password" id="current-admin-password" class="blueprint-input" required autocomplete="current-password">
+        </div>
+        <div class="input-group">
+          <label for="new-admin-password" class="input-label">New Password (min 8 characters) *</label>
+          <input type="password" id="new-admin-password" class="blueprint-input" required minlength="8" autocomplete="new-password">
+        </div>
+        <p class="admin-login-error" id="password-change-error" hidden></p>
+        <div class="modal-form-actions">
+          <button type="submit" class="btn-submit-blueprint">
+            <span>Save Credentials &rarr;</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="auth.js"></script>
+  <script>window.AirPulseAuth && AirPulseAuth.requireAdmin();</script>
+  <script src="dashboard.js"></script>
+</body>
+</html>

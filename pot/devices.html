@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>AirPulse // RouterOS Fleet Schematic</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Technical wireframe router manager for MikroTik RouterOS gateways and captive portal synchronization.">
+  <style>html.auth-pending body{visibility:hidden}</style>
+  <script>document.documentElement.classList.add('auth-pending');</script>
+
+  <!-- Index Meta & Display Settings -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="theme-color" content="#000000">
+
+  <!-- Fonts: Inter (Raveo 1000 substitute) & JetBrains Mono (Geist Mono substitute) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="devices.css">
+</head>
+<body>
+
+  <!-- Top Navigation (Blueprint Drafting Chrome) -->
+  <header class="app-header">
+    <div class="nav-container">
+      
+      <!-- Brand Identity -->
+      <a href="devices.html" class="nav-brand" aria-label="Index Fleet Manager">
+        <span class="brand-bracket-mark">[ &bull; ]</span>
+        <span class="brand-title">AirPulse</span>
+        <span class="brand-slash">/</span>
+        <span class="brand-subtag">RouterOS Fleet</span>
+      </a>
+
+      <!-- Fleet Health Pill -->
+      <div class="hardware-telemetry-chip">
+        <span class="node-dot"></span>
+        <span>SYS // GATEWAYS</span>
+        <span class="chip-sep">:</span>
+        <span class="chip-val" id="fleet-summary-text">3 Synced</span>
+        <span class="chip-sep">&bull;</span>
+        <span class="chip-accent">ACTIVE</span>
+      </div>
+
+      <!-- Outlined Pill Action Buttons -->
+      <div class="nav-actions">
+        <a href="dashboard.html" class="btn-pill-outlined btn-pill-ghost" id="btn-back-portal">
+          <span>&larr; Dashboard</span>
+        </a>
+
+        <a href="dashboard.html" class="btn-pill-outlined" id="btn-nav-dashboard" style="border-color: var(--color-periwinkle-annotation); color: var(--color-paper);">
+          <span>Dashboard &rarr;</span>
+        </a>
+
+        <a href="database.html" class="btn-pill-outlined" id="btn-nav-database">
+          <span>Database &rarr;</span>
+        </a>
+
+        <button class="btn-pill-outlined" id="btn-trigger-add-modal">
+          <span>+ Add Device</span>
+        </button>
+
+        <button class="btn-pill-outlined btn-pill-ghost" data-admin-logout>
+          <span>Sign Out</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Main Blueprint Canvas -->
+  <main class="page-main">
+    
+    <!-- Hero / Fleet Overview Section -->
+    <section class="devices-hero-section">
+      <div class="container">
+        
+        <div class="eyebrow-chip">
+          <span class="eyebrow-pen">&bull;</span>
+          <span>ROUTEROS API v7.x // CENTRALIZED FLEET CONTROL</span>
+        </div>
+
+        <div class="devices-hero-header">
+          <div>
+            <h1 class="devices-hero-title">
+              ROUTEROS FLEET.<br>
+              <span style="color:var(--color-steel);">PROVISION &bull; SYNC &bull; ROUTE</span>
+            </h1>
+            <p class="devices-hero-desc">
+              Register physical or virtual MikroTik gateways to synchronize captive portal user profiles, rate limits, and client roaming across all hotspot zones.
+            </p>
+          </div>
+
+          <div>
+            <button class="btn-pill-outlined" id="btn-hero-add-device" style="padding: 10px 22px;">
+              <span>+ Provision New Gateway &rarr;</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 Fleet Metric Tiles (CAD Wireframe Style) -->
+        <div class="fleet-metrics-grid">
+          
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <span class="metric-label">FLEET SIZE</span>
+              <span class="metric-tag">SYS // 01</span>
+            </div>
+            <div class="metric-value" id="metric-total-routers">3</div>
+            <span class="metric-sub">100% Online Gateways</span>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <span class="metric-label">ACTIVE CLIENTS</span>
+              <span class="metric-tag">SYS // 02</span>
+            </div>
+            <div class="metric-value" id="metric-active-clients">248</div>
+            <span class="metric-sub">Across 3 Zones</span>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <span class="metric-label">FLEET BANDWIDTH</span>
+              <span class="metric-tag">SYS // 03</span>
+            </div>
+            <div class="metric-value">184.2 <small>Mbps</small></div>
+            <span class="metric-sub">Latency &lt; 14ms</span>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <span class="metric-label">PORTAL SYNC</span>
+              <span class="metric-tag">SYS // 04</span>
+            </div>
+            <div class="metric-value" style="color:var(--color-periwinkle-annotation);">SYNCED</div>
+            <span class="metric-sub">M-Pesa STK Hook Ready</span>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Active Gateways List Section -->
+    <section class="gateways-section" id="gateways-list">
+      <div class="container">
+        
+        <div class="section-split-header">
+          <div>
+            <h2 class="section-title">Connected RouterOS Gateways</h2>
+            <p class="section-subtitle">Real-time status, active client loads, and hardware specifications.</p>
+          </div>
+
+          <div class="search-input-wrapper">
+            <input type="text" id="device-search-input" class="blueprint-search-input" placeholder="Search gateways by name, IP, or site...">
+          </div>
+        </div>
+
+        <!-- Dynamic Devices Grid -->
+        <div class="devices-grid" id="devices-container">
+          <!-- Populated by devices.js -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 1-Click RouterOS CLI Script Section -->
+    <section class="quick-config-section" id="quick-config">
+      <div class="container">
+        
+        <div class="config-card">
+          <div class="config-header">
+            <div>
+              <div class="eyebrow-chip" style="margin-bottom:6px;">
+                <span>TERMINAL CLI // V7.X SCHEMATIC</span>
+              </div>
+              <h2 class="config-title">1-Click MikroTik Setup Script</h2>
+              <p class="config-desc">
+                Paste directly into WinBox Terminal to enable API, provision the hotspot profile, and configure rate limits matching your 6 price tiers.
+              </p>
+            </div>
+            <button class="btn-pill-outlined" id="btn-copy-script">
+              <span id="copy-btn-text">Copy Script &rarr;</span>
+            </button>
+          </div>
+
+          <div class="code-terminal-box">
+            <div class="terminal-bar">
+              <span class="term-dot"></span>
+              <span class="term-dot"></span>
+              <span class="term-dot"></span>
+              <span class="term-title">terminal@mikrotik-routeros &bull; /ip hotspot</span>
+            </div>
+            <pre class="terminal-code"><code id="mikrotik-script-text"># ==========================================
+# AirPulse Hotspot &amp; API Provisioning Script
+# Compatible with RouterOS v6.x and v7.x
+# ==========================================
+
+# 1. Enable RouterOS API service for remote provisioning
+/ip service set api disabled=no port=8728 address=0.0.0.0/0
+
+# 2. Configure Hotspot Server Profile to use this HTML login pack
+/ip hotspot profile
+set [ find default=yes ] \
+    html-directory="hotspot" \
+    hotspot-address=192.168.88.1 \
+    dns-name="wifi.airpulse.net" \
+    login-by=http-chap,http-pap,cookie \
+    http-cookie-lifetime=1d \
+    use-radius=no
+
+# 3. Create High-Speed Client User Profiles
+/ip hotspot user profile
+add name="12h-pass" rate-limit="10M/10M" keepalive-timeout=12h shared-users=1
+add name="24h-pass" rate-limit="15M/15M" keepalive-timeout=24h shared-users=1
+add name="2d-pass" rate-limit="20M/20M" keepalive-timeout=48h shared-users=1
+add name="5d-pass" rate-limit="25M/25M" keepalive-timeout=120h shared-users=1
+add name="7d-pass" rate-limit="30M/30M" keepalive-timeout=168h shared-users=2
+add name="monthly-vip" rate-limit="50M/50M" keepalive-timeout=720h shared-users=2
+
+# 4. Allow Walled Garden for M-Pesa, fonts, and hosted operator site
+/ip hotspot walled-garden
+add dst-host="*.safaricom.co.ke" action=allow
+add dst-host="*.daraja.safaricom.co.ke" action=allow
+add dst-host="fonts.googleapis.com" action=allow
+add dst-host="fonts.gstatic.com" action=allow
+
+/ip hotspot walled-garden ip
+add action=accept dst-host=wifi.airpulse.net comment="hosted portal assets if used"
+
+:put ">> Upload login.html, alogin.html, status.html, logout.html, error.html, style.css, script.js, md5.js into Files > hotspot"
+:put ">> AirPulse Hotspot Configuration Successfully Installed!"</code></pre>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Add Device Modal Dialog (Blueprint Wireframe Style) -->
+  <div class="sheet-scrim" id="add-device-scrim" aria-hidden="true">
+    <div class="sheet-container device-modal-container" id="add-device-sheet" role="dialog" aria-modal="true" aria-labelledby="modal-add-title">
+      
+      <!-- Close Button -->
+      <button class="sheet-close-btn" id="btn-close-device-modal" aria-label="Close modal">&times;</button>
+
+      <div class="device-modal-body">
+        <div class="modal-blueprint-header">
+          <span class="modal-chip">ROUTEROS PROVISIONING // SCHEMATIC</span>
+          <h2 class="sheet-title" id="modal-add-title">Add Gateway</h2>
+          <p class="sheet-desc">Register a MikroTik router to synchronize hotspot profiles and vouchers.</p>
+        </div>
+
+        <form id="form-add-device" onsubmit="return false;">
+          
+          <div class="form-section-title">// DEVICE IDENTIFICATION</div>
+          
+          <div class="input-group">
+            <label for="input-device-name" class="input-label">Router Identifier Name *</label>
+            <input type="text" id="input-device-name" class="blueprint-input" placeholder="e.g. Central-Hub-RB4011" required>
+          </div>
+
+          <div class="input-row-duo">
+            <div class="input-group">
+              <label for="select-device-model" class="input-label">Hardware Architecture</label>
+              <select id="select-device-model" class="blueprint-input blueprint-select">
+                <option value="RB750Gr3 (hEX)">RB750Gr3 (hEX)</option>
+                <option value="hAP ax³ (Wi-Fi 6)" selected>hAP ax³ (Wi-Fi 6)</option>
+                <option value="RB4011iGS+ (10G Core)">RB4011iGS+ (10G Core)</option>
+                <option value="CCR2004-16G-2S+">CCR2004-16G-2S+</option>
+                <option value="CCR1009-7G-1C">CCR1009-7G-1C</option>
+                <option value="Cloud Hosted Router (CHR)">Cloud Hosted Router (CHR)</option>
+                <option value="Other RouterOS Device">Other RouterOS Device</option>
+              </select>
+            </div>
+
+            <div class="input-group">
+              <label for="input-device-site" class="input-label">Deployment Zone</label>
+              <input type="text" id="input-device-site" class="blueprint-input" placeholder="e.g. East Lounge">
+            </div>
+          </div>
+
+          <div class="form-section-title" style="margin-top:12px;">// NETWORK &amp; API HANDSHAKE</div>
+
+          <div class="input-row-duo">
+            <div class="input-group">
+              <label for="input-device-host" class="input-label">IP Address / Hostname *</label>
+              <input type="text" id="input-device-host" class="blueprint-input" placeholder="192.168.88.1" required>
+            </div>
+
+            <div class="input-group">
+              <label for="input-device-port" class="input-label">API Port</label>
+              <input type="number" id="input-device-port" class="blueprint-input" value="8728">
+            </div>
+          </div>
+
+          <div class="input-row-duo">
+            <div class="input-group">
+              <label for="input-device-username" class="input-label">API Username *</label>
+              <input type="text" id="input-device-username" class="blueprint-input" value="admin" required>
+            </div>
+
+            <div class="input-group">
+              <label for="input-device-password" class="input-label">API Password</label>
+              <input type="password" id="input-device-password" class="blueprint-input" placeholder="••••••••">
+            </div>
+          </div>
+
+          <div class="input-row-duo">
+            <div class="input-group">
+              <label for="input-hotspot-server" class="input-label">Hotspot Server</label>
+              <input type="text" id="input-hotspot-server" class="blueprint-input" value="hotspot1">
+            </div>
+
+            <div class="input-group">
+              <label for="input-hotspot-dns" class="input-label">Hotspot DNS</label>
+              <input type="text" id="input-hotspot-dns" class="blueprint-input" value="wifi.airpulse.net">
+            </div>
+          </div>
+
+          <div class="connection-test-result-box" id="test-result-box">
+            <div class="test-idle-state" id="test-state-idle">
+              <span>[ ? ] Tap <strong>Test Handshake</strong> to verify API before saving.</span>
+            </div>
+            
+            <div class="test-loading-state" id="test-state-loading" style="display: none;">
+              <span>Connecting to RouterOS API at <span id="test-target-ip">192.168.88.1</span>...</span>
+            </div>
+
+            <div class="test-success-state" id="test-state-success" style="display: none;">
+              <span>&check; Handshake Successful (12ms ping) &bull; RouterOS v7.14.3 active.</span>
+            </div>
+          </div>
+
+          <div class="modal-form-actions">
+            <button type="button" class="btn-pill-outlined btn-pill-ghost" id="btn-test-connection" style="border:1px dashed var(--color-graphite);">
+              <span>Test Handshake</span>
+            </button>
+
+            <button type="submit" class="btn-submit-blueprint" id="btn-save-device">
+              <span>Provision Gateway &rarr;</span>
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <div class="footer-schematic-label">
+        <span class="node-dot"></span>
+        <span>INDEX // ROUTEROS FLEET ENGINE &bull; CENTRALIZED SCHEMATIC</span>
+      </div>
+      <div class="footer-links">
+        <span class="footer-a-link">Signed in as <strong id="admin-user-label">admin</strong></span>
+        <span style="color:var(--color-graphite);">&bull;</span>
+        <a href="dashboard.html" class="footer-a-link" style="color:var(--color-periwinkle-annotation);">Operator Dashboard &rarr;</a>
+        <span style="color:var(--color-graphite);">&bull;</span>
+        <a href="database.html" class="footer-a-link">Payment Database &rarr;</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="auth.js"></script>
+  <script>window.AirPulseAuth && AirPulseAuth.requireAdmin();</script>
+  <script src="devices.js"></script>
+</body>
+</html>

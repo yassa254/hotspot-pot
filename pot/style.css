@@ -1,0 +1,1542 @@
+/* ==========================================================================
+   Index — Style Reference Implementation
+   "Blueprint on a backlit drafting table — wireframe drawing with periwinkle annotation"
+   ========================================================================== */
+
+:root {
+  /* Colors — Achromatic Stack + Periwinkle Annotation */
+  --color-void: #000000;
+  --color-carbon: #1c1c1c;
+  --color-graphite: #4d4d4d;
+  --color-steel: #808080;
+  --color-ash: #ababab;
+  --color-paper: #ffffff;
+  --color-periwinkle-annotation: #7089ba;
+
+  /* Surfaces */
+  --surface-void-canvas: #000000;
+  --surface-carbon-surface: #1c1c1c;
+  --surface-periwinkle-wash: #7089ba;
+
+  /* Typography — Font Families */
+  --font-sans-serif: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-raveo-variable: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-geist-mono: 'JetBrains Mono', 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Typography — Scale */
+  --text-caption: 12px;
+  --leading-caption: 1.2;
+  --tracking-caption: 0px;
+
+  --text-body-sm: 14px;
+  --leading-body-sm: 1.6;
+  --tracking-body-sm: -0.14px;
+
+  --text-body: 16px;
+  --leading-body: 1.6;
+  --tracking-body: -0.16px;
+
+  --text-subheading: 24px;
+  --leading-subheading: 1.4;
+  --tracking-subheading: -0.24px;
+
+  --text-heading: 32px;
+  --leading-heading: 1.2;
+  --tracking-heading: -0.32px;
+
+  --text-display: clamp(32px, 3.8vw, 56px);
+  --leading-display: 1.08;
+  --tracking-display: -0.04em;
+
+  /* Typography — Weights */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-w1000: 900; /* Signature blocky silhouette */
+
+  /* Spacing */
+  --spacing-4: 4px;
+  --spacing-6: 6px;
+  --spacing-8: 8px;
+  --spacing-10: 10px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-18: 18px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+
+  /* Border Radii */
+  --radius-nav: 6px;
+  --radius-tags: 100px;
+  --radius-buttons: 100px;
+  --radius-featuretiles: 20px;
+  --radius-iconcontainers: 50px;
+
+  /* Blueprint Hairline Dashes */
+  --border-dashed-carbon: 1px dashed var(--color-graphite);
+  --border-dashed-light: 1px dashed var(--color-carbon);
+  --border-dashed-white: 1px dashed var(--color-paper);
+  --border-solid-paper: 1px solid var(--color-paper);
+  --border-solid-graphite: 1px solid var(--color-graphite);
+
+  /* Compatibility aliases */
+  --bg-page: var(--color-void);
+  --bg-header: var(--color-carbon);
+  --bg-card: var(--color-carbon);
+  --mpesa-green: var(--color-paper);
+}
+
+/* --------------------------------------------------------------------------
+   Reset & Strict Viewport Containment (Single Screen Fit, Zero Scroll)
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: var(--color-void);
+  color: var(--color-paper);
+  font-family: var(--font-raveo-variable);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Blueprint Drafting Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-void);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-carbon);
+  border-radius: 4px;
+  border: 1px solid var(--color-graphite);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-periwinkle-annotation);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-graphite) var(--color-void);
+}
+
+.single-page-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between;
+  background-color: var(--color-void);
+}
+
+/* --------------------------------------------------------------------------
+   Top Navigation — Blueprint Drafting Chrome
+   -------------------------------------------------------------------------- */
+.app-header {
+  height: 52px;
+  min-height: 52px;
+  background-color: var(--color-carbon);
+  border-bottom: 1px dashed var(--color-graphite);
+  display: flex;
+  align-items: center;
+  z-index: 100;
+  width: 100%;
+}
+
+.nav-container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-20);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-16);
+}
+
+/* Brand Wordmark & Bracket Monogram */
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-10);
+  text-decoration: none;
+  color: var(--color-paper);
+}
+
+.brand-bracket-mark {
+  font-family: var(--font-geist-mono);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-periwinkle-annotation);
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.brand-title {
+  font-size: 15px;
+  font-weight: var(--font-weight-w1000);
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.brand-slash {
+  color: var(--color-graphite);
+  margin: 0 4px;
+}
+
+.brand-subtag {
+  font-family: var(--font-geist-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--color-steel);
+  text-transform: uppercase;
+}
+
+/* Blueprint Hardware Telemetry Chip */
+.hardware-telemetry-chip {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  background-color: var(--color-void);
+  border: 1px dashed var(--color-graphite);
+  border-radius: var(--radius-tags);
+  padding: 3px 12px;
+  font-family: var(--font-geist-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--color-ash);
+  text-transform: uppercase;
+}
+
+.node-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-periwinkle-annotation);
+}
+
+.chip-sep {
+  color: var(--color-graphite);
+}
+
+.chip-val {
+  color: var(--color-paper);
+}
+
+.chip-accent {
+  color: var(--color-periwinkle-annotation);
+}
+
+/* Outlined Pill Action Buttons */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+}
+
+.btn-pill-outlined {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-6);
+  padding: 6px 16px;
+  border-radius: var(--radius-buttons);
+  border: 1px solid var(--color-paper);
+  background: transparent;
+  color: var(--color-paper);
+  font-size: var(--text-body-sm);
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-raveo-variable);
+  text-decoration: none;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 140ms ease, color 140ms ease, transform 100ms ease;
+  white-space: nowrap;
+}
+
+.btn-pill-outlined:hover {
+  background-color: var(--color-paper);
+  color: var(--color-void);
+}
+
+.btn-pill-outlined:active {
+  transform: scale(0.97);
+}
+
+.btn-pill-ghost {
+  border-color: transparent;
+  color: var(--color-ash);
+}
+
+.btn-pill-ghost:hover {
+  background: transparent;
+  color: var(--color-paper);
+}
+
+/* --------------------------------------------------------------------------
+   Hero Drafting Canvas with Desk Lamp Radial Light Wash
+   -------------------------------------------------------------------------- */
+.single-page-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(16px, 3vh, 36px) clamp(12px, 2vw, 24px);
+  width: 100%;
+  position: relative;
+  overflow: visible;
+  background: radial-gradient(ellipse 900px 500px at 50% 25%, #1c1c1c 0%, #000000 75%);
+}
+
+.portal-blueprint-container {
+  width: 100%;
+  max-width: 1220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+/* Section Container — 1px Dashed Blueprint Primitive */
+.dashed-section-primitive {
+  border: 1px dashed var(--color-graphite);
+  background-color: var(--color-carbon);
+  padding: clamp(14px, 2vh, 24px) clamp(16px, 2vw, 24px);
+  position: relative;
+}
+
+/* Corner Drafting Marks */
+.dashed-section-primitive::before,
+.dashed-section-primitive::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-color: var(--color-periwinkle-annotation);
+  pointer-events: none;
+}
+
+.dashed-section-primitive::before {
+  top: -1px;
+  left: -1px;
+  border-top: 1px solid var(--color-periwinkle-annotation);
+  border-left: 1px solid var(--color-periwinkle-annotation);
+}
+
+.dashed-section-primitive::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 1px solid var(--color-periwinkle-annotation);
+  border-right: 1px solid var(--color-periwinkle-annotation);
+}
+
+/* Hero Typography & Eyebrow */
+.blueprint-header-stack {
+  text-align: center;
+  margin-bottom: clamp(10px, 1.8vh, 18px);
+}
+
+.eyebrow-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-6);
+  padding: 4px 12px;
+  border-radius: var(--radius-tags);
+  border: 1px dashed var(--color-paper);
+  background-color: var(--color-void);
+  font-family: var(--font-geist-mono);
+  font-size: 9px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--color-paper);
+  margin-bottom: var(--spacing-8);
+}
+
+.eyebrow-pen {
+  color: var(--color-periwinkle-annotation);
+}
+
+.blueprint-display-headline {
+  font-size: var(--text-display);
+  font-weight: var(--font-weight-w1000);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-paper);
+  text-transform: uppercase;
+  margin-bottom: var(--spacing-6);
+}
+
+.blueprint-subtext {
+  font-size: var(--text-body-sm);
+  line-height: 1.45;
+  color: var(--color-steel);
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+/* --------------------------------------------------------------------------
+   6 Compact Button Cards Grid (Index Blueprint Wireframe Style)
+   -------------------------------------------------------------------------- */
+.blueprint-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: clamp(8px, 1vw, 12px);
+  width: 100%;
+}
+
+/* Individual Schematic Card */
+.blueprint-card {
+  background-color: var(--color-carbon);
+  border: 1px dashed var(--color-graphite);
+  padding: clamp(10px, 1.6vh, 16px) clamp(10px, 1vw, 14px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  cursor: pointer;
+  position: relative;
+  outline: none;
+  transition: border-color 140ms ease, background-color 140ms ease, transform 100ms ease;
+  min-height: clamp(180px, 26vh, 220px);
+}
+
+.blueprint-card:hover {
+  border-color: var(--color-periwinkle-annotation);
+  background-color: #222222;
+}
+
+.blueprint-card:active {
+  transform: scale(0.97);
+}
+
+.blueprint-card:focus-visible {
+  border-color: var(--color-paper);
+}
+
+/* Card Header Tag */
+.card-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-6);
+}
+
+.card-mono-tag {
+  font-family: var(--font-geist-mono);
+  font-size: 9px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--color-periwinkle-annotation);
+}
+
+.card-annotation-badge {
+  font-family: var(--font-geist-mono);
+  font-size: 8px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 1px 6px;
+  border-radius: var(--radius-tags);
+  border: 1px dashed var(--color-periwinkle-annotation);
+  color: var(--color-periwinkle-annotation);
+  background-color: var(--color-void);
+}
+
+.card-duration-title {
+  font-size: 15px;
+  font-weight: var(--font-weight-w1000);
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--color-paper);
+}
+
+/* Big Raveo 1000 Price Display */
+.card-price-block {
+  margin: clamp(4px, 0.8vh, 10px) 0;
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+}
+
+.price-currency {
+  font-family: var(--font-geist-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-steel);
+}
+
+.price-integer {
+  font-size: clamp(28px, 3.4vw, 36px);
+  font-weight: var(--font-weight-w1000);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--color-paper);
+}
+
+/* Specs & Metadata */
+.card-specs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: clamp(8px, 1.2vh, 14px);
+}
+
+.spec-line {
+  font-family: var(--font-geist-mono);
+  font-size: 10px;
+  color: var(--color-ash);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.spec-line .dot {
+  color: var(--color-periwinkle-annotation);
+}
+
+.spec-desc {
+  font-size: 11px;
+  color: var(--color-steel);
+}
+
+/* Outlined Pill Action Inside Card */
+.btn-card-action {
+  width: 100%;
+  padding: 7px 12px;
+  border-radius: var(--radius-buttons);
+  border: 1px solid var(--color-paper);
+  background: transparent;
+  color: var(--color-paper);
+  font-family: var(--font-raveo-variable);
+  font-size: 12px;
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: background-color 140ms ease, color 140ms ease;
+}
+
+.btn-card-action:hover {
+  background-color: var(--color-paper);
+  color: var(--color-void);
+}
+
+.btn-card-action:active {
+  transform: scale(0.96);
+}
+
+/* --------------------------------------------------------------------------
+   Blueprint Footer (~34px)
+   -------------------------------------------------------------------------- */
+.app-footer {
+  height: 34px;
+  min-height: 34px;
+  background-color: var(--color-carbon);
+  border-top: 1px dashed var(--color-graphite);
+  display: flex;
+  align-items: center;
+  font-size: 11px;
+  color: var(--color-steel);
+  width: 100%;
+}
+
+.footer-container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-20);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-schematic-label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-6);
+  font-family: var(--font-geist-mono);
+  font-size: 10px;
+  letter-spacing: 0.02em;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-12);
+}
+
+.footer-btn-link, .footer-a-link {
+  background: none;
+  border: none;
+  color: var(--color-steel);
+  font-size: 11px;
+  font-family: var(--font-raveo-variable);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 120ms ease;
+}
+
+.footer-btn-link:hover, .footer-a-link:hover {
+  color: var(--color-paper);
+}
+
+/* --------------------------------------------------------------------------
+   M-Pesa Modal Dialogs (Blueprint Wireframe Style)
+   -------------------------------------------------------------------------- */
+.sheet-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background-color: rgba(0, 0, 0, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 180ms ease, visibility 180ms ease;
+}
+
+.sheet-scrim.active {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.sheet-container {
+  width: 92%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background-color: var(--color-carbon);
+  border: 1px dashed var(--color-graphite);
+  padding: clamp(16px, 3vw, 24px);
+  position: relative;
+  transform: translateY(12px) scale(0.97);
+  transition: transform 180ms ease;
+}
+
+.sheet-scrim.active .sheet-container {
+  transform: translateY(0) scale(1);
+}
+
+.sheet-close-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-buttons);
+  background-color: var(--color-void);
+  border: 1px dashed var(--color-graphite);
+  color: var(--color-steel);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 140ms ease, color 140ms ease;
+}
+
+.sheet-close-btn:hover {
+  border-color: var(--color-paper);
+  color: var(--color-paper);
+}
+
+.sheet-close-btn:active {
+  transform: scale(0.92);
+}
+
+/* Header in Modal */
+.modal-blueprint-header {
+  margin-bottom: var(--spacing-16);
+}
+
+.modal-chip {
+  font-family: var(--font-geist-mono);
+  font-size: 9px;
+  font-weight: 500;
+  color: var(--color-periwinkle-annotation);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--spacing-4);
+  display: block;
+}
+
+.sheet-title {
+  font-size: var(--text-subheading);
+  font-weight: var(--font-weight-w1000);
+  letter-spacing: -0.02em;
+  color: var(--color-paper);
+  text-transform: uppercase;
+  line-height: 1.15;
+}
+
+.sheet-desc {
+  font-size: var(--text-caption);
+  color: var(--color-steel);
+  margin-top: 3px;
+}
+
+/* Plan Summary Box */
+.modal-summary-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color-void);
+  border: 1px dashed var(--color-graphite);
+  padding: 10px 14px;
+  margin-bottom: var(--spacing-16);
+}
+
+.sum-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.sum-label {
+  font-family: var(--font-geist-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  color: var(--color-steel);
+}
+
+.sum-value {
+  font-size: 13px;
+  font-weight: var(--font-weight-w1000);
+  color: var(--color-paper);
+}
+
+.sum-price {
+  font-size: 17px;
+  font-weight: var(--font-weight-w1000);
+  color: var(--color-periwinkle-annotation);
+}
+
+/* Input Styles */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: var(--spacing-12);
+  text-align: left;
+}
+
+.input-label {
+  font-family: var(--font-geist-mono);
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--color-steel);
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-prefix {
+  position: absolute;
+  left: 12px;
+  font-family: var(--font-geist-mono);
+  font-size: 12px;
+  color: var(--color-steel);
+  pointer-events: none;
+}
+
+.blueprint-input {
+  width: 100%;
+  background-color: var(--color-void);
+  border: 1px dashed var(--color-graphite);
+  border-radius: var(--radius-nav);
+  padding: 9px 12px;
+  font-family: var(--font-geist-mono);
+  font-size: 13px;
+  color: var(--color-paper);
+  outline: none;
+  transition: border-color 140ms ease;
+}
+
+.blueprint-input.with-prefix {
+  padding-left: 80px;
+}
+
+.blueprint-input:focus {
+  border-color: var(--color-paper);
+  border-style: solid;
+}
+
+.input-helper {
+  font-size: 11px;
+  color: var(--color-ash);
+}
+
+/* Device Notice Box */
+.device-bind-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background-color: var(--color-void);
+  border: 1px dashed var(--color-graphite);
+  font-family: var(--font-geist-mono);
+  font-size: 10px;
+  color: var(--color-ash);
+  margin-bottom: var(--spacing-16);
+}
+
+.bind-node {
+  color: var(--color-periwinkle-annotation);
+}
+
+/* Big Blueprint Action Button */
+.btn-submit-blueprint {
+  width: 100%;
+  padding: 10px 18px;
+  border-radius: var(--radius-buttons);
+  border: 1px solid var(--color-paper);
+  background: transparent;
+  color: var(--color-paper);
+  font-family: var(--font-raveo-variable);
+  font-size: 14px;
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background-color 140ms ease, color 140ms ease, transform 100ms ease;
+}
+
+.btn-submit-blueprint:hover {
+  background-color: var(--color-paper);
+  color: var(--color-void);
+}
+
+.btn-submit-blueprint:active {
+  transform: scale(0.97);
+}
+
+/* --------------------------------------------------------------------------
+   Step 2: Processing Schematic
+   -------------------------------------------------------------------------- */
+.sheet-step-view {
+  display: none;
+}
+
+.sheet-step-view.active {
+  display: block;
+}
+
+.processing-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 10px 0;
+}
+
+.wireframe-radar-node {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1px dashed var(--color-periwinkle-annotation);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-geist-mono);
+  font-size: 11px;
+  color: var(--color-periwinkle-annotation);
+  margin-bottom: var(--spacing-16);
+}
+
+.processing-title {
+  font-size: 18px;
+  font-weight: var(--font-weight-w1000);
+  letter-spacing: -0.02em;
+  color: var(--color-paper);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.processing-desc {
+  font-size: 12px;
+  color: var(--color-steel);
+  max-width: 320px;
+  margin-bottom: var(--spacing-16);
+}
+
+.blueprint-progress-track {
+  width: 100%;
+  height: 4px;
+  background-color: var(--color-void);
+  border: 1px dashed var(--color-graphite);
+  margin-bottom: var(--spacing-16);
+  position: relative;
+}
+
+.blueprint-progress-fill {
+  width: 0%;
+  height: 100%;
+  background-color: var(--color-periwinkle-annotation);
+  transition: width 300ms ease;
+}
+
+.processing-steps-log {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+
+.step-log-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-geist-mono);
+  font-size: 10px;
+  color: var(--color-steel);
+}
+
+.step-log-item .step-node {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--color-graphite);
+}
+
+.step-log-item.active {
+  color: var(--color-paper);
+}
+
+.step-log-item.active .step-node {
+  background-color: var(--color-periwinkle-annotation);
+}
+
+.step-log-item.completed {
+  color: var(--color-periwinkle-annotation);
+}
+
+.step-log-item.completed .step-node {
+  background-color: var(--color-periwinkle-annotation);
+}
+
+/* --------------------------------------------------------------------------
+   Step 3: Connected State
+   -------------------------------------------------------------------------- */
+.success-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.success-check-mark {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--color-periwinkle-annotation);
+  color: var(--color-periwinkle-annotation);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-bottom: var(--spacing-12);
+}
+
+.success-title {
+  font-size: 20px;
+  font-weight: var(--font-weight-w1000);
+  text-transform: uppercase;
+  color: var(--color-paper);
+  margin-bottom: 4px;
+}
+
+.success-desc {
+  font-size: 12px;
+  color: var(--color-steel);
+  max-width: 320px;
+  margin-bottom: var(--spacing-16);
+}
+
+.receipt-card {
+  width: 100%;
+  background-color: var(--color-void);
+  border: 1px dashed var(--color-graphite);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: var(--spacing-16);
+  text-align: left;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--color-steel);
+}
+
+.receipt-code-highlight {
+  font-family: var(--font-geist-mono);
+  font-size: 13px;
+  color: var(--color-periwinkle-annotation);
+}
+
+/* --------------------------------------------------------------------------
+   Voucher & FAQ Modals
+   -------------------------------------------------------------------------- */
+.blueprint-tab-bar {
+  display: flex;
+  background-color: var(--color-void);
+  border: 1px dashed var(--color-graphite);
+  padding: 2px;
+  margin-bottom: var(--spacing-16);
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 6px;
+  border: none;
+  background: transparent;
+  color: var(--color-steel);
+  font-family: var(--font-geist-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 120ms ease;
+}
+
+.tab-btn.active {
+  background-color: var(--color-carbon);
+  color: var(--color-paper);
+}
+
+.login-tab-panel {
+  display: none;
+  flex-direction: column;
+}
+
+.login-tab-panel.active {
+  display: flex;
+}
+
+.faq-list-blueprint {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: var(--spacing-12);
+  text-align: left;
+}
+
+.faq-schematic-item {
+  background-color: var(--color-void);
+  border: 1px dashed var(--color-graphite);
+  padding: 10px 14px;
+}
+
+.faq-schematic-item strong {
+  display: block;
+  font-size: 13px;
+  font-weight: var(--font-weight-w1000);
+  color: var(--color-paper);
+  margin-bottom: 3px;
+}
+
+.faq-schematic-item p {
+  font-size: 12px;
+  color: var(--color-steel);
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------------------------------
+   Connected Bottom Dock
+   -------------------------------------------------------------------------- */
+.connected-dock-pill {
+  position: fixed;
+  bottom: 42px;
+  left: 50%;
+  transform: translateX(-50%) translateY(120%);
+  z-index: 1500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-16);
+  padding: 8px 16px;
+  background-color: var(--color-carbon);
+  border: 1px dashed var(--color-periwinkle-annotation);
+  border-radius: var(--radius-buttons);
+  transition: transform 220ms ease;
+  min-width: 320px;
+}
+
+.connected-dock-pill.visible {
+  transform: translateX(-50%) translateY(0);
+}
+
+.dock-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.active-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-periwinkle-annotation);
+}
+
+.dock-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.dock-title {
+  font-family: var(--font-geist-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--color-paper);
+}
+
+.dock-timer {
+  font-family: var(--font-geist-mono);
+  font-size: 11px;
+  color: var(--color-periwinkle-annotation);
+}
+
+.dock-btn-logout {
+  padding: 4px 12px;
+  border-radius: var(--radius-buttons);
+  background: transparent;
+  border: 1px solid var(--color-graphite);
+  color: var(--color-steel);
+  font-family: var(--font-geist-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 120ms ease, color 120ms ease;
+}
+
+.dock-btn-logout:hover {
+  border-color: var(--color-paper);
+  color: var(--color-paper);
+}
+
+/* --------------------------------------------------------------------------
+   Tuma API & Bank Transfer Specific Components
+   -------------------------------------------------------------------------- */
+.tuma-channel-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  background-color: var(--color-void);
+  border: 1px dashed var(--color-graphite);
+  padding: 4px;
+  margin-bottom: var(--spacing-16);
+}
+
+.tuma-channel-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--color-steel);
+  font-family: var(--font-geist-mono);
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 140ms ease;
+}
+
+.tuma-channel-btn.active {
+  background-color: var(--color-carbon);
+  color: var(--color-paper);
+  border-color: var(--color-periwinkle-annotation);
+}
+
+.tuma-channel-btn:hover:not(.active) {
+  color: var(--color-ash);
+}
+
+.bank-details-card {
+  background-color: var(--color-void);
+  border: 1px dashed var(--color-periwinkle-annotation);
+  padding: 12px 14px;
+  margin-bottom: var(--spacing-14);
+  font-size: 11px;
+}
+
+.bank-card-title {
+  font-family: var(--font-geist-mono);
+  font-size: 9px;
+  color: var(--color-periwinkle-annotation);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bank-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.bank-info-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.bank-info-label {
+  font-size: 9px;
+  color: var(--color-steel);
+  font-family: var(--font-geist-mono);
+}
+
+.bank-info-val {
+  font-size: 12px;
+  color: var(--color-paper);
+  font-weight: 600;
+  font-family: var(--font-geist-mono);
+}
+
+.blueprint-select {
+  width: 100%;
+  background-color: var(--color-void);
+  border: 1px dashed var(--color-graphite);
+  color: var(--color-paper);
+  padding: 10px 14px;
+  font-family: var(--font-sans-serif);
+  font-size: 13px;
+  outline: none;
+  border-radius: 0;
+  cursor: pointer;
+  transition: border-color 140ms ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23808080' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+.blueprint-select:focus {
+  border-color: var(--color-periwinkle-annotation);
+}
+
+.tuma-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-geist-mono);
+  font-size: 8px;
+  padding: 2px 6px;
+  border-radius: 2px;
+  background-color: rgba(112, 137, 186, 0.15);
+  border: 1px solid var(--color-periwinkle-annotation);
+  color: var(--color-paper);
+  text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Adaptations — Fit All Screen Sizes & Fluid Scrolling
+   -------------------------------------------------------------------------- */
+@media (min-width: 1280px) {
+  .blueprint-cards-grid {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+  }
+}
+
+@media (max-width: 1279px) and (min-width: 901px) {
+  .blueprint-cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .blueprint-card {
+    min-height: 190px;
+  }
+}
+
+@media (max-width: 900px) and (min-width: 681px) {
+  .nav-container {
+    padding: 0 16px;
+    gap: 10px;
+  }
+
+  .hardware-telemetry-chip {
+    font-size: 8px;
+    padding: 2px 8px;
+  }
+
+  .blueprint-cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .blueprint-card {
+    min-height: 170px;
+    padding: 12px;
+  }
+
+  .blueprint-display-headline {
+    font-size: clamp(26px, 3.5vw, 36px);
+  }
+}
+
+@media (max-width: 680px) and (min-width: 481px) {
+  .app-header {
+    height: auto;
+    padding: 8px 0;
+  }
+
+  .nav-container {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0 12px;
+  }
+
+  .hardware-telemetry-chip {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    font-size: 8px;
+  }
+
+  .nav-actions {
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .btn-pill-outlined {
+    padding: 5px 12px;
+    font-size: 12px;
+  }
+
+  .blueprint-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .blueprint-card {
+    min-height: 155px;
+    padding: 10px;
+  }
+
+  .price-integer {
+    font-size: 22px;
+  }
+
+  .blueprint-display-headline {
+    font-size: 26px;
+  }
+
+  .blueprint-subtext {
+    font-size: 12px;
+  }
+
+  .sheet-container {
+    width: 95%;
+    padding: 16px;
+  }
+
+  .app-footer {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-header {
+    height: auto;
+    padding: 8px 0;
+  }
+
+  .nav-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 0 12px;
+  }
+
+  .nav-brand {
+    justify-content: center;
+  }
+
+  .hardware-telemetry-chip {
+    font-size: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 4px 8px;
+  }
+
+  .nav-actions {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .btn-pill-outlined {
+    padding: 4px 10px;
+    font-size: 11px;
+    flex: 1 1 auto;
+  }
+
+  .single-page-main {
+    padding: 16px 8px;
+  }
+
+  .dashed-section-primitive {
+    padding: 14px 10px;
+  }
+
+  .blueprint-display-headline {
+    font-size: 22px;
+    line-height: 1.15;
+  }
+
+  .blueprint-subtext {
+    font-size: 12px;
+  }
+
+  .blueprint-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+
+  .blueprint-card {
+    min-height: 140px;
+    padding: 8px;
+  }
+
+  .card-duration-title {
+    font-size: 13px;
+  }
+
+  .price-integer {
+    font-size: 19px;
+  }
+
+  .spec-line, .spec-desc {
+    font-size: 9px;
+  }
+
+  .btn-card-action {
+    font-size: 10px;
+    padding: 5px 8px;
+  }
+
+  .sheet-container {
+    width: 96%;
+    padding: 14px;
+    max-height: 94vh;
+  }
+
+  .modal-summary-box {
+    padding: 8px 10px;
+  }
+
+  .bank-info-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .connected-dock-pill {
+    width: 92%;
+    min-width: auto;
+    bottom: 12px;
+    padding: 6px 12px;
+  }
+
+  .app-footer {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+    padding: 10px;
+    font-size: 10px;
+  }
+
+  .footer-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 360px) {
+  .blueprint-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .blueprint-card {
+    min-height: auto;
+  }
+}
+
+.hotspot-error-banner {
+  display: none;
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  border: 1px dashed #c45c5c;
+  color: #ffb4b4;
+  font-family: var(--font-geist-mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+.admin-login-card {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.admin-login-form {
+  margin-top: 8px;
+}
+
+.admin-login-error {
+  margin: 0 0 12px;
+  color: #ffb4b4;
+  font-size: 13px;
+}

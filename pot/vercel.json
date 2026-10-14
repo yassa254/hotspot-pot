@@ -1,0 +1,15 @@
+{
+  "cleanUrls": false,
+  "headers": [
+    {
+      "source": "/(dashboard|devices|database|admin-login).html",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
+        { "key": "Cache-Control", "value": "no-store" }
+      ]
+    }
+  ],
+  "rewrites": [
+    { "source": "/admin", "destination": "/admin-login.html" }
+  ]
+}

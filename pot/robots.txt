@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /index.html
+Allow: /login.html
+Disallow: /admin-login.html
+Disallow: /dashboard.html
+Disallow: /devices.html
+Disallow: /database.html
+Disallow: /auth.js
+Disallow: /dashboard.js
+Disallow: /devices.js
+Disallow: /database.js

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AirPulse // Session Status</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="single-page-body">
+  <header class="app-header">
+    <div class="nav-container">
+      <span class="nav-brand">
+        <span class="brand-bracket-mark">[ &bull; ]</span>
+        <span class="brand-title">AirPulse</span>
+        <span class="brand-slash">/</span>
+        <span class="brand-subtag">Session</span>
+      </span>
+    </div>
+  </header>
+  <main class="single-page-main">
+    <div class="portal-blueprint-container">
+      <div class="dashed-section-primitive">
+        <div class="blueprint-header-stack" style="text-align:center;">
+          <div class="eyebrow-chip" style="margin:0 auto 12px;">
+            <span class="eyebrow-pen">&bull;</span>
+            <span>HOTSPOT STATUS // $(identity)</span>
+          </div>
+          <h1 class="blueprint-display-headline" style="font-size:32px;">YOU ARE ONLINE.</h1>
+        </div>
+        <div class="receipt-card" style="margin:20px auto;max-width:420px;">
+          <div class="receipt-row"><span>USER</span><strong>$(username)</strong></div>
+          <div class="receipt-row"><span>IP</span><strong>$(ip)</strong></div>
+          <div class="receipt-row"><span>MAC</span><strong>$(mac)</strong></div>
+          <div class="receipt-row"><span>BYTES UP / DOWN</span><strong>$(bytes-in-nice) / $(bytes-out-nice)</strong></div>
+          <div class="receipt-row"><span>CONNECTED</span><strong>$(uptime)</strong></div>
+          <div class="receipt-row"><span>SESSION TIME LEFT</span><strong>$(session-time-left)</strong></div>
+        </div>
+        <form action="$(link-logout)" method="post" style="text-align:center;">
+          <input type="hidden" name="erase-cookie" value="true">
+          <button type="submit" class="btn-submit-blueprint" style="max-width:280px;margin:0 auto;">
+            <span>Log Out &amp; End Session</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

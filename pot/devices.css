@@ -1,0 +1,587 @@
+/* ==========================================================================
+   Index — Style Reference: Devices & Routers Management (devices.css)
+   "Blueprint on a backlit drafting table — wireframe drawing with periwinkle annotation"
+   ========================================================================== */
+
+/* Hero & Header Section */
+.devices-hero-section {
+  position: relative;
+  z-index: 1;
+  padding-top: clamp(28px, 4vw, 48px);
+  padding-bottom: 24px;
+  background: radial-gradient(ellipse 900px 450px at 50% 20%, #1c1c1c 0%, #000000 80%);
+}
+
+.container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-20);
+}
+
+.devices-hero-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: var(--spacing-20);
+  margin-top: var(--spacing-12);
+  margin-bottom: var(--spacing-24);
+}
+
+.devices-hero-title {
+  font-size: clamp(32px, 4.5vw, 54px);
+  font-weight: var(--font-weight-w1000);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-paper);
+  text-transform: uppercase;
+  margin-bottom: var(--spacing-8);
+}
+
+.devices-hero-desc {
+  font-size: var(--text-body-sm);
+  line-height: var(--leading-body-sm);
+  color: var(--color-steel);
+  max-width: 620px;
+}
+
+/* --------------------------------------------------------------------------
+   Fleet Metric Cards (Blueprint Schematic Tiles)
+   -------------------------------------------------------------------------- */
+.fleet-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-12);
+}
+
+.metric-card {
+  background-color: var(--color-carbon);
+  border: 1px dashed var(--color-graphite);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  transition: border-color 140ms ease;
+}
+
+.metric-card:hover {
+  border-color: var(--color-periwinkle-annotation);
+}
+
+.metric-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.metric-icon-cad {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-iconcontainers);
+  border: 1px dashed var(--color-graphite);
+  background-color: var(--color-void);
+  color: var(--color-periwinkle-annotation);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.metric-tag {
+  font-family: var(--font-geist-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-periwinkle-annotation);
+}
+
+.metric-label {
+  font-family: var(--font-geist-mono);
+  font-size: 9px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-steel);
+}
+
+.metric-value {
+  font-size: 28px;
+  font-weight: var(--font-weight-w1000);
+  letter-spacing: -0.04em;
+  color: var(--color-paper);
+  line-height: 1;
+}
+
+.metric-value small {
+  font-size: 14px;
+  color: var(--color-steel);
+  font-family: var(--font-geist-mono);
+}
+
+.metric-sub {
+  font-size: 11px;
+  color: var(--color-ash);
+}
+
+/* --------------------------------------------------------------------------
+   Gateways List Section
+   -------------------------------------------------------------------------- */
+.gateways-section {
+  position: relative;
+  z-index: 1;
+  padding: 36px 0 48px;
+  border-top: 1px dashed var(--color-graphite);
+}
+
+.section-split-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: var(--spacing-16);
+  margin-bottom: var(--spacing-20);
+}
+
+.section-title {
+  font-size: var(--text-heading);
+  font-weight: var(--font-weight-w1000);
+  letter-spacing: var(--tracking-heading);
+  color: var(--color-paper);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.section-subtitle {
+  font-size: var(--text-body-sm);
+  color: var(--color-steel);
+}
+
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 320px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  color: var(--color-steel);
+  pointer-events: none;
+}
+
+.blueprint-search-input {
+  width: 100%;
+  background-color: var(--color-carbon);
+  border: 1px dashed var(--color-graphite);
+  border-radius: var(--radius-buttons);
+  padding: 8px 14px 8px 36px;
+  font-family: var(--font-geist-mono);
+  font-size: 12px;
+  color: var(--color-paper);
+  outline: none;
+  transition: border-color 140ms ease;
+}
+
+.blueprint-search-input:focus {
+  border-color: var(--color-paper);
+  border-style: solid;
+}
+
+/* Devices Grid */
+.devices-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-16);
+}
+
+/* Router Blueprint Card */
+.router-card {
+  background-color: var(--color-carbon);
+  border: 1px dashed var(--color-graphite);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  outline: none;
+  transition: border-color 140ms ease, background-color 140ms ease;
+}
+
+.router-card:hover {
+  border-color: var(--color-periwinkle-annotation);
+  background-color: #222222;
+}
+
+.router-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-12);
+}
+
+.router-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: var(--radius-tags);
+  border: 1px dashed var(--color-periwinkle-annotation);
+  background-color: var(--color-void);
+  font-family: var(--font-geist-mono);
+  font-size: 9px;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--color-periwinkle-annotation);
+}
+
+.router-status-badge .dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--color-periwinkle-annotation);
+}
+
+.router-delete-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-steel);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 120ms ease;
+}
+
+.router-delete-btn:hover {
+  color: var(--color-paper);
+}
+
+.router-name {
+  font-size: 16px;
+  font-weight: var(--font-weight-w1000);
+  letter-spacing: -0.02em;
+  color: var(--color-paper);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.router-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-geist-mono);
+  font-size: 10px;
+  color: var(--color-steel);
+  margin-bottom: var(--spacing-12);
+}
+
+/* Specs Blueprint Table */
+.router-specs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 10px 12px;
+  background-color: var(--color-void);
+  border: 1px dashed var(--color-graphite);
+  margin-bottom: var(--spacing-16);
+}
+
+.spec-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.spec-label {
+  font-family: var(--font-geist-mono);
+  font-size: 8px;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--color-steel);
+}
+
+.spec-value {
+  font-family: var(--font-geist-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-paper);
+}
+
+.router-card-actions {
+  display: flex;
+  gap: var(--spacing-8);
+}
+
+.btn-card-cad, .btn-card-action {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: var(--radius-buttons);
+  border: 1px solid var(--color-paper);
+  background: transparent;
+  color: var(--color-paper);
+  font-family: var(--font-raveo-variable);
+  font-size: 12px;
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 140ms ease, color 140ms ease;
+}
+
+.btn-card-cad:hover {
+  background-color: var(--color-paper);
+  color: var(--color-void);
+}
+
+.btn-card-cad.ghost {
+  border-color: var(--color-graphite);
+  color: var(--color-ash);
+}
+
+.btn-card-cad.ghost:hover {
+  border-color: var(--color-paper);
+  background: transparent;
+  color: var(--color-paper);
+}
+
+/* Empty State */
+.empty-devices-box {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 48px 24px;
+  background-color: var(--color-carbon);
+  border: 1px dashed var(--color-graphite);
+}
+
+.empty-title {
+  font-size: var(--text-subheading);
+  font-weight: var(--font-weight-w1000);
+  text-transform: uppercase;
+  color: var(--color-paper);
+  margin-bottom: 4px;
+}
+
+.empty-desc {
+  font-size: var(--text-body-sm);
+  color: var(--color-steel);
+  max-width: 440px;
+  margin: 0 auto 18px;
+}
+
+/* --------------------------------------------------------------------------
+   Quick Config Terminal Section
+   -------------------------------------------------------------------------- */
+.quick-config-section {
+  position: relative;
+  z-index: 1;
+  padding: 40px 0 60px;
+  border-top: 1px dashed var(--color-graphite);
+}
+
+.config-card {
+  background-color: var(--color-carbon);
+  border: 1px dashed var(--color-graphite);
+  padding: 24px clamp(16px, 3vw, 32px);
+}
+
+.config-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: var(--spacing-16);
+  margin-bottom: var(--spacing-16);
+}
+
+.config-title {
+  font-size: var(--text-subheading);
+  font-weight: var(--font-weight-w1000);
+  letter-spacing: -0.02em;
+  color: var(--color-paper);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.config-desc {
+  font-size: var(--text-body-sm);
+  color: var(--color-steel);
+  max-width: 600px;
+}
+
+.code-terminal-box {
+  background-color: var(--color-void);
+  border: 1px dashed var(--color-graphite);
+}
+
+.terminal-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background-color: #111111;
+  border-bottom: 1px dashed var(--color-graphite);
+}
+
+.term-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--color-graphite);
+}
+
+.term-title {
+  font-family: var(--font-geist-mono);
+  font-size: 10px;
+  color: var(--color-steel);
+  margin-left: 6px;
+}
+
+.terminal-code {
+  padding: 16px;
+  overflow-x: auto;
+  font-family: var(--font-geist-mono);
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--color-paper);
+}
+
+/* --------------------------------------------------------------------------
+   Add Device Modal (Blueprint Wireframe Style)
+   -------------------------------------------------------------------------- */
+.device-modal-container {
+  max-width: 580px;
+  background-color: var(--color-carbon);
+  border: 1px dashed var(--color-graphite);
+}
+
+.form-section-title {
+  font-family: var(--font-geist-mono);
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-periwinkle-annotation);
+  margin-bottom: var(--spacing-8);
+}
+
+.input-row-duo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-12);
+}
+
+.blueprint-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+  padding-right: 32px;
+}
+
+.connection-test-result-box {
+  margin: var(--spacing-12) 0;
+  padding: 10px 14px;
+  background-color: var(--color-void);
+  border: 1px dashed var(--color-graphite);
+  font-family: var(--font-geist-mono);
+  font-size: 11px;
+  color: var(--color-steel);
+}
+
+.test-idle-state, .test-loading-state, .test-success-state {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.test-success-state {
+  color: var(--color-periwinkle-annotation);
+}
+
+.modal-form-actions {
+  display: flex;
+  gap: var(--spacing-10);
+  margin-top: var(--spacing-16);
+}
+
+/* Toast System (Blueprint Notification) */
+.toast-container {
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  z-index: 3000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.apple-toast {
+  padding: 8px 16px;
+  border-radius: var(--radius-buttons);
+  background-color: var(--color-carbon);
+  border: 1px dashed var(--color-paper);
+  color: var(--color-paper);
+  font-family: var(--font-geist-mono);
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transform: translateX(100%);
+  opacity: 0;
+  transition: transform 160ms ease, opacity 160ms ease;
+  pointer-events: auto;
+}
+
+.apple-toast.visible {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Adaptations
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .fleet-metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .devices-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .fleet-metrics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .devices-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .devices-hero-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .search-input-wrapper {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .input-row-duo {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-form-actions {
+    flex-direction: column;
+  }
+}

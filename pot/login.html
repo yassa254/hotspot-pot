@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>AirPulse // MikroTik Hotspot Login</title>
+  <meta name="description" content="Technical wireframe hotspot portal. Blueprint on a backlit drafting table with M-Pesa STK push authentication.">
+
+  <!-- Index Meta & Display Settings -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="theme-color" content="#000000">
+
+  <!-- Fonts: Inter (Raveo 1000 substitute) & JetBrains Mono (Geist Mono substitute) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="single-page-body">
+
+  <!-- Top Navigation (Blueprint Drafting Chrome) -->
+  <header class="app-header">
+    <div class="nav-container">
+      
+      <!-- Brand Logo Wordmark + Bracket Monogram -->
+      <a href="index.html" class="nav-brand" aria-label="Index AirPulse Home">
+        <span class="brand-bracket-mark">[ &bull; ]</span>
+        <span class="brand-title">AirPulse</span>
+        <span class="brand-slash">/</span>
+        <span class="brand-subtag">Hotspot 5G</span>
+      </a>
+
+      <!-- Hardware Telemetry Chip (Geist Mono 9px) -->
+      <div class="hardware-telemetry-chip">
+        <span class="node-dot"></span>
+        <span>SYS // 5GHZ</span>
+        <span class="chip-sep">:</span>
+        <span>IP: <strong class="chip-val" id="nav-ip-display">$(ip)</strong></span>
+        <span class="chip-sep">&bull;</span>
+        <span>MAC: <strong class="chip-val" id="nav-mac-display">$(mac)</strong></span>
+        <span class="chip-sep">&bull;</span>
+        <span class="chip-accent">LINKED</span>
+      </div>
+
+      <!-- Action Outlined Pill Buttons -->
+      <div class="nav-actions">
+        <button class="btn-pill-outlined btn-pill-ghost" id="btn-open-voucher">
+          <span>Voucher Code</span>
+        </button>
+
+        <button class="btn-pill-outlined" id="btn-nav-login">
+          <span>Login</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Hero Drafting Canvas with Radial Light Wash (Fits on 1 Screen Without Scroll) -->
+  <main class="single-page-main">
+    <div class="portal-blueprint-container">
+      
+      <!-- Dashed Section Container (Primary Layout Primitive) -->
+      <div class="dashed-section-primitive">
+        
+        <!-- Header Stack -->
+        <div class="blueprint-header-stack">
+          <div class="eyebrow-chip">
+            <span class="eyebrow-pen">&bull;</span>
+            <span>TUMA API v1.0 // MIKROTIK HOTSPOT SCHEMATIC</span>
+          </div>
+          <h1 class="blueprint-display-headline">CONNECT YOUR DEVICE.</h1>
+          <p class="blueprint-subtext">
+            Select an allocation pass below. Instant Tuma API bank transfer or STK push registers your device MAC directly with the gateway.
+          </p>
+          <div class="hotspot-error-banner" id="mt-error-banner">$(error)</div>
+        </div>
+
+        <!-- 6 Compact Button Cards (Schematic Wireframe Style) -->
+        <section class="blueprint-cards-grid" id="pricing-grid">
+
+          <!-- Card 1: 20 for 12 Hours -->
+          <article class="blueprint-card" data-plan-id="plan-12h" data-price="20" data-duration="12 Hours" tabindex="0">
+            <div>
+              <div class="card-header-bar">
+                <span class="card-mono-tag">PASS // 12H</span>
+              </div>
+              <h3 class="card-duration-title">12 Hours</h3>
+              
+              <div class="card-price-block">
+                <span class="price-currency">KES</span>
+                <span class="price-integer">20</span>
+              </div>
+
+              <div class="card-specs-list">
+                <div class="spec-line"><span class="dot">&bull;</span> 10M / 10M Rate Limit</div>
+                <div class="spec-desc">Half Day Pass</div>
+              </div>
+            </div>
+
+            <button class="btn-card-action" data-select-plan="plan-12h">
+              <span>Select 20 KES</span>
+            </button>
+          </article>
+
+          <!-- Card 2: 30 for 24 Hours -->
+          <article class="blueprint-card" data-plan-id="plan-24h" data-price="30" data-duration="24 Hours" tabindex="0">
+            <div>
+              <div class="card-header-bar">
+                <span class="card-mono-tag">PASS // 24H</span>
+              </div>
+              <h3 class="card-duration-title">24 Hours</h3>
+
+              <div class="card-price-block">
+                <span class="price-currency">KES</span>
+                <span class="price-integer">30</span>
+              </div>
+
+              <div class="card-specs-list">
+                <div class="spec-line"><span class="dot">&bull;</span> 15M / 15M Rate Limit</div>
+                <div class="spec-desc">Full 1-Day Pass</div>
+              </div>
+            </div>
+
+            <button class="btn-card-action" data-select-plan="plan-24h">
+              <span>Select 30 KES</span>
+            </button>
+          </article>
+
+          <!-- Card 3: 50 for 2 Days -->
+          <article class="blueprint-card" data-plan-id="plan-2d" data-price="50" data-duration="2 Days" tabindex="0">
+            <div>
+              <div class="card-header-bar">
+                <span class="card-mono-tag">PASS // 48H</span>
+              </div>
+              <h3 class="card-duration-title">2 Days</h3>
+
+              <div class="card-price-block">
+                <span class="price-currency">KES</span>
+                <span class="price-integer">50</span>
+              </div>
+
+              <div class="card-specs-list">
+                <div class="spec-line"><span class="dot">&bull;</span> 20M / 20M Rate Limit</div>
+                <div class="spec-desc">48h Weekend Pass</div>
+              </div>
+            </div>
+
+            <button class="btn-card-action" data-select-plan="plan-2d">
+              <span>Select 50 KES</span>
+            </button>
+          </article>
+
+          <!-- Card 4: 100 for 5 Days -->
+          <article class="blueprint-card" data-plan-id="plan-5d" data-price="100" data-duration="5 Days" tabindex="0">
+            <div>
+              <div class="card-header-bar">
+                <span class="card-mono-tag">PASS // 120H</span>
+              </div>
+              <h3 class="card-duration-title">5 Days</h3>
+
+              <div class="card-price-block">
+                <span class="price-currency">KES</span>
+                <span class="price-integer">100</span>
+              </div>
+
+              <div class="card-specs-list">
+                <div class="spec-line"><span class="dot">&bull;</span> 25M / 25M Rate Limit</div>
+                <div class="spec-desc">Work-Week Saver</div>
+              </div>
+            </div>
+
+            <button class="btn-card-action" data-select-plan="plan-5d">
+              <span>Select 100 KES</span>
+            </button>
+          </article>
+
+          <!-- Card 5: 200 for 7 Days (Popular) -->
+          <article class="blueprint-card" data-plan-id="plan-7d" data-price="200" data-duration="7 Days" tabindex="0">
+            <div>
+              <div class="card-header-bar">
+                <span class="card-mono-tag">PASS // 168H</span>
+                <span class="card-annotation-badge">POPULAR</span>
+              </div>
+              <h3 class="card-duration-title">7 Days</h3>
+
+              <div class="card-price-block">
+                <span class="price-currency">KES</span>
+                <span class="price-integer">200</span>
+              </div>
+
+              <div class="card-specs-list">
+                <div class="spec-line"><span class="dot">&bull;</span> 30M / 30M Rate Limit</div>
+                <div class="spec-desc">Weekly Unlimited</div>
+              </div>
+            </div>
+
+            <button class="btn-card-action" data-select-plan="plan-7d">
+              <span>Select 200 KES</span>
+            </button>
+          </article>
+
+          <!-- Card 6: 700 for Monthly (Best Value) -->
+          <article class="blueprint-card" data-plan-id="plan-monthly" data-price="700" data-duration="30 Days" tabindex="0">
+            <div>
+              <div class="card-header-bar">
+                <span class="card-mono-tag">PASS // 720H</span>
+                <span class="card-annotation-badge">VALUE</span>
+              </div>
+              <h3 class="card-duration-title">Monthly</h3>
+
+              <div class="card-price-block">
+                <span class="price-currency">KES</span>
+                <span class="price-integer">700</span>
+              </div>
+
+              <div class="card-specs-list">
+                <div class="spec-line"><span class="dot">&bull;</span> 50M / 50M Rate Limit</div>
+                <div class="spec-desc">30-Day VIP Pass</div>
+              </div>
+            </div>
+
+            <button class="btn-card-action" data-select-plan="plan-monthly">
+              <span>Select 700 KES</span>
+            </button>
+          </article>
+
+        </section>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Blueprint Footer (~34px) -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <div class="footer-schematic-label">
+        <span class="node-dot"></span>
+        <span>INDEX // ROUTEROS ENGINE &bull; TUMA API BANK GATEWAY</span>
+      </div>
+      <div class="footer-links">
+        <button class="footer-btn-link" id="btn-footer-faq">Documentation &amp; FAQ</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Blueprint Tuma API Modal Dialog (Wireframe Style) -->
+  <div class="sheet-scrim" id="payment-scrim" aria-hidden="true">
+    <div class="sheet-container" id="payment-sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-plan-title">
+      
+      <!-- Close Button -->
+      <button class="sheet-close-btn" id="btn-close-sheet" aria-label="Close modal">
+        &times;
+      </button>
+
+      <!-- Step 1: Input Form (STK Only) -->
+      <div class="sheet-step-view active" id="sheet-view-form">
+        <div class="modal-blueprint-header">
+          <span class="modal-chip">TUMA API // M-PESA STK PUSH</span>
+          <h2 class="sheet-title" id="sheet-plan-title">24 Hours Pass</h2>
+          <p class="sheet-desc">Enter your mobile number to receive the instant M-Pesa STK PIN prompt.</p>
+        </div>
+
+        <div class="modal-summary-box">
+          <div class="sum-col">
+            <span class="sum-label">DURATION</span>
+            <span class="sum-value" id="summary-duration">24 Hours</span>
+          </div>
+          <div class="sum-col" style="text-align:right;">
+            <span class="sum-label">AMOUNT</span>
+            <span class="sum-price" id="summary-price-amount">KES 30</span>
+          </div>
+        </div>
+
+        <form id="form-mpesa" onsubmit="return false;">
+          <div class="input-group">
+            <label for="mpesa-phone-input" class="input-label">Mobile Number (M-Pesa STK Prompt)</label>
+            <div class="input-wrapper">
+              <span class="input-prefix">+254</span>
+              <input type="tel" id="mpesa-phone-input" class="blueprint-input with-prefix" placeholder="712 345 678" pattern="[0-9]{9,10}" required autocomplete="tel">
+            </div>
+            <span class="input-helper">Enter Safaricom or Airtel number. You will receive an instant PIN prompt on your handset.</span>
+          </div>
+
+          <div class="device-bind-box">
+            <span class="bind-node">[ &bull; ]</span>
+            <span>Target MAC: <strong id="notice-mac">$(mac)</strong> &bull; Gateway: Tuma API</span>
+          </div>
+
+          <button type="submit" class="btn-submit-blueprint" id="btn-submit-mpesa">
+            <span id="mpesa-btn-text">Pay with STK Push (KES 30)</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Step 2: Processing Radar Animation -->
+      <div class="sheet-step-view" id="sheet-view-processing">
+        <div class="processing-box">
+          <div class="wireframe-radar-node">
+            <span>[ TUMA ]</span>
+          </div>
+          
+          <h3 class="processing-title" id="processing-status-title">M-Pesa STK Prompt Dispatched</h3>
+          <p class="processing-desc" id="processing-status-desc">A prompt has been sent to your phone. Please enter your PIN on your mobile screen to authorize.</p>
+          
+          <div class="blueprint-progress-track">
+            <div class="blueprint-progress-fill" id="payment-progress-bar"></div>
+          </div>
+
+          <div class="processing-steps-log">
+            <div class="step-log-item active" id="log-step-1">
+              <span class="step-node"></span>
+              <span>1. Tuma API initialized M-Pesa STK push</span>
+            </div>
+            <div class="step-log-item" id="log-step-2">
+              <span class="step-node"></span>
+              <span>2. Awaiting mobile handset PIN authorization</span>
+            </div>
+            <div class="step-log-item" id="log-step-3">
+              <span class="step-node"></span>
+              <span>3. Payment approved &amp; MAC bound to RouterOS gateway</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: Success Screen -->
+      <div class="sheet-step-view" id="sheet-view-success">
+        <div class="success-box">
+          <div class="success-check-mark">&check;</div>
+          <h3 class="success-title">PAYMENT APPROVED.</h3>
+          <p class="success-desc">M-Pesa payment approved via Tuma API. Your session is now live on the MikroTik network.</p>
+
+          <div class="receipt-card">
+            <div class="receipt-row">
+              <span>TUMA REF:</span>
+              <strong style="color:var(--color-paper); font-family:var(--font-geist-mono);" id="receipt-tuma-ref">TUMA-STK-9284102</strong>
+            </div>
+            <div class="receipt-row">
+              <span>PHONE:</span>
+              <strong style="color:var(--color-periwinkle-annotation); font-family:var(--font-geist-mono);" id="receipt-phone-display">+254 712 345 678</strong>
+            </div>
+            <div class="receipt-row">
+              <span>ALLOCATED PASS:</span>
+              <strong id="receipt-plan-name">24 Hours Pass</strong>
+            </div>
+            <div class="receipt-row">
+              <span>VOUCHER BACKUP PIN:</span>
+              <strong class="receipt-code-highlight" id="receipt-voucher-pin">AP-77824</strong>
+            </div>
+            <div class="receipt-row">
+              <span>TIME REMAINING:</span>
+              <strong style="color:var(--color-periwinkle-annotation);" id="receipt-timer">23:59:59</strong>
+            </div>
+          </div>
+
+          <button class="btn-submit-blueprint" id="btn-finish-and-browse">
+            <span>Start Browsing Internet &rarr;</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Voucher & Member Login Modal -->
+  <div class="sheet-scrim" id="login-modal-scrim" aria-hidden="true">
+    <div class="sheet-container" id="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-modal-title">
+      <button class="sheet-close-btn" id="btn-close-login-modal" aria-label="Close modal">&times;</button>
+
+      <div class="modal-blueprint-header" style="text-align:center;">
+        <span class="modal-chip">GATEWAY ACCESS // SCHEMATIC</span>
+        <h2 class="sheet-title" id="login-modal-title">Authenticate</h2>
+        <p class="sheet-desc">Redeem a voucher PIN or sign in with credentials.</p>
+      </div>
+
+      <div class="blueprint-tab-bar" role="tablist">
+        <button class="tab-btn active" id="modal-tab-voucher-btn">Voucher PIN</button>
+        <button class="tab-btn" id="modal-tab-member-btn">Username &amp; Pass</button>
+      </div>
+
+      <!-- Voucher Form -->
+      <form class="login-tab-panel active" id="modal-voucher-form" onsubmit="return false;">
+        <div class="input-group">
+          <label for="direct-voucher-input" class="input-label">Enter Voucher PIN</label>
+          <input type="text" id="direct-voucher-input" class="blueprint-input" style="text-align:center;letter-spacing:0.1em;text-transform:uppercase;" placeholder="AP-XXXXXX" required autocomplete="off">
+        </div>
+        <button type="submit" class="btn-submit-blueprint" id="btn-submit-direct-voucher">
+          <span>Authorize Device</span>
+        </button>
+      </form>
+
+      <!-- Member Form -->
+      <form class="login-tab-panel" id="modal-member-form" onsubmit="return false;">
+        <div class="input-group">
+          <label for="member-username-input" class="input-label">Username</label>
+          <input type="text" id="member-username-input" class="blueprint-input" placeholder="Username" autocomplete="username">
+        </div>
+        <div class="input-group">
+          <label for="member-password-input" class="input-label">Password</label>
+          <input type="password" id="member-password-input" class="blueprint-input" placeholder="••••••••" autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn-submit-blueprint" id="btn-submit-member-login">
+          <span>Sign In to Hotspot</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- FAQ Modal -->
+  <div class="sheet-scrim" id="faq-modal-scrim" aria-hidden="true">
+    <div class="sheet-container" id="faq-modal" role="dialog" aria-modal="true" aria-labelledby="faq-modal-title">
+      <button class="sheet-close-btn" id="btn-close-faq-modal" aria-label="Close FAQ modal">&times;</button>
+
+      <div class="modal-blueprint-header">
+        <span class="modal-chip">INDEX // TECHNICAL DOCS</span>
+        <h2 class="sheet-title" id="faq-modal-title">System FAQ</h2>
+        <p class="sheet-desc">Operational guidelines for AirPulse Hotspot gateway.</p>
+      </div>
+
+      <div class="faq-list-blueprint">
+        <div class="faq-schematic-item">
+          <strong>How does M-Pesa STK authentication function?</strong>
+          <p>Tap any price pass, submit your phone number, and authorization is sent as an automated SIM toolkit PIN prompt. Once authorized, the gateway marks your MAC address as authenticated.</p>
+        </div>
+        <div class="faq-schematic-item">
+          <strong>Does the session persist on Wi-Fi reconnect?</strong>
+          <p>Yes. The RouterOS radius profile retains your session time until expiration. Rejoining the network does not prompt for repayment.</p>
+        </div>
+        <div class="faq-schematic-item">
+          <strong>Device switching and voucher codes</strong>
+          <p>Each transaction produces an alphanumeric "AP-" voucher backup code. Use "Voucher Code" on any secondary machine to transfer session rights.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Connected State Bottom Dock Pill -->
+  <aside class="connected-dock-pill" id="active-session-dock" aria-live="polite">
+    <div class="dock-left">
+      <span class="active-pulse-dot"></span>
+      <div class="dock-info">
+        <span class="dock-title">AUTHENTICATED // 5GHZ LINK</span>
+        <span class="dock-timer" id="dock-timer-display">23:59:45 remaining</span>
+      </div>
+    </div>
+    <div class="dock-actions">
+      <button class="dock-btn-logout" id="btn-disconnect-session">Terminate</button>
+    </div>
+  </aside>
+
+  <!-- MikroTik RouterOS Standard Submission Form (Hidden) -->
+  <form id="mikrotik-login-form" name="sendin" action="$(link-login-only)" method="post" style="display:none;" aria-hidden="true">
+    <input type="hidden" name="username" id="mt-username" value="">
+    <input type="hidden" name="password" id="mt-password" value="">
+    <input type="hidden" name="dst" value="$(link-orig)">
+    <input type="hidden" name="popup" value="true">
+  </form>
+
+  <script>
+    window.CHAP_ID = "$(chap-id)";
+    window.CHAP_CHALLENGE = "$(chap-challenge)";
+  </script>
+  <script src="md5.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
